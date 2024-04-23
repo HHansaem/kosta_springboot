@@ -9,10 +9,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.kosta.bank.dto.AccountDto;
-import com.kosta.bank.entity.Account;
 import com.kosta.bank.service.AccountService;
 
 @Controller
@@ -24,6 +24,18 @@ public class AccountController {
 	@GetMapping("/makeAccount")
 	public String makeAccount() {
 		return "makeAccount";
+	}
+	
+	@ResponseBody
+	@PostMapping("/accountDoubleId")
+	public String accountDoubleId(String id) {
+		try {
+			Boolean check = accountService.checkAccountDoubleId(id);
+			return String.valueOf(check);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "false";
+		}
 	}
 	
 	@PostMapping("/makeAccount")

@@ -1,9 +1,9 @@
 package com.kosta.bank.service;
 
-import com.kosta.bank.entity.Member;
+import com.kosta.bank.dto.MemberDto;
 
 public interface MemberService {
-	void join(Member member) throws Exception;
+	void join(MemberDto member) throws Exception;
 	Boolean checkMemberDoubleId(String id) throws Exception;
-	Member login(String id, String password) throws Exception;
+	void login(String id, String password) throws Exception;
 }

@@ -76,8 +76,8 @@ public class AccountServiceImpl implements AccountService {
 
 	@Override
 	public Boolean checkAccountDoubleId(String id) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Account> oacc = accountRepository.findById(id);
+		return oacc.get() != null;
 	}
 
 }
