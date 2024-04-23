@@ -1,13 +1,24 @@
 package com.kosta.bank.dto;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Data  //getter, setter, toString 모두 포함하는 어노테이션
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor  //기본 생성자 만듦
+@AllArgsConstructor  //모든 생성자 만듦 (이거 사용하려면 반드시 @NoArgsConstructor도 적어야 함)
 public class Account {
 	private String id;
 	private String name;
 	private Integer balance;
 	private String type;
 	private String grade;
-	
-	public Account() {}
 	
 	public String getId() {
 		return id;
