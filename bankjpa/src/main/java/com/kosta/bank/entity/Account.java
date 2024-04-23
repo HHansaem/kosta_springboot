@@ -15,7 +15,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
+@Entity  //(name="bankaccount")를 써서 table명 지정 가능(안 써주면 Account로)
 public class Account {
 	@Id  //primary key column
 	private String id;
