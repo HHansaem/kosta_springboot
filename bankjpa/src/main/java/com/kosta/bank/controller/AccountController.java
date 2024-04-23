@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.kosta.bank.dto.AccountDto;
 import com.kosta.bank.entity.Account;
 import com.kosta.bank.service.AccountService;
 
@@ -26,7 +27,7 @@ public class AccountController {
 	}
 	
 	@PostMapping("/makeAccount")
-	public String makeAccount(@ModelAttribute("acc") Account acc, Model model) {
+	public String makeAccount(@ModelAttribute("acc") AccountDto acc, Model model) {
 		//@ModelAttribute : acc객체를 view로 넘겨줌 (model로 안 넘겨줘도 이렇게 넘겨줄 수 있음)
 		try {
 			accountService.makeAccount(acc);
@@ -47,7 +48,7 @@ public class AccountController {
 	public ModelAndView accountInfo(@RequestParam("id") String id) {
 		ModelAndView mav = new ModelAndView();
 		try {
-			Account acc = accountService.accountInfo(id);
+			AccountDto acc = accountService.accountInfo(id);
 			mav.addObject("acc", acc);
 			mav.setViewName("accountInfo");
 		} catch (Exception e) {
@@ -102,7 +103,7 @@ public class AccountController {
 	public ModelAndView allAccountInfo() {
 		ModelAndView mav = new ModelAndView();
 		try {
-			List<Account> accs = accountService.allAccountInfo();
+			List<AccountDto> accs = accountService.allAccountInfo();
 			mav.addObject("accs", accs);
 			mav.setViewName("allAccountInfo");
 		} catch (Exception e) {
