@@ -2,6 +2,17 @@ package com.kosta.board.dto;
 
 import java.sql.Date;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import lombok.ToString;
+
+@Getter
+@Setter
+@ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class Board {
 	private Integer num;
 	private String subject;
@@ -11,59 +22,4 @@ public class Board {
 	private String writer;
 	private Integer viewcount;
 	private Integer likecount;
-	
-	public Integer getNum() {
-		return num;
-	}
-	public void setNum(Integer num) {
-		this.num = num;
-	}
-	public String getSubject() {
-		return subject;
-	}
-	public void setSubject(String subject) {
-		this.subject = subject;
-	}
-	public String getContent() {
-		return content;
-	}
-	public void setContent(String content) {
-		this.content = content;
-	}
-	public Date getWritedate() {
-		return writedate;
-	}
-	public void setWritedate(Date writedate) {
-		this.writedate = writedate;
-	}
-	public Integer getFilenum() {
-		return filenum;
-	}
-	public void setFilenum(Integer filenum) {
-		this.filenum = filenum;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public void setWriter(String writer) {
-		this.writer = writer;
-	}
-	public Integer getViewcount() {
-		return viewcount;
-	}
-	public void setViewcount(Integer viewcount) {
-		this.viewcount = viewcount;
-	}
-	public Integer getLikecount() {
-		return likecount;
-	}
-	public void setLikecount(Integer likecount) {
-		this.likecount = likecount;
-	}
-	@Override
-	public String toString() {
-		return "Board [num=" + num + ", subject=" + subject + ", content=" + content + ", writedate=" + writedate
-				+ ", filenum=" + filenum + ", writer=" + writer + ", viewcount=" + viewcount + ", likecount="
-				+ likecount + "]";
-	}
 }
