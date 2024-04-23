@@ -80,11 +80,8 @@ function imageSizeChange(image) {
 		<h2>게시판글등록</h2>
 <!-- 		file 업로드시 파일 정보를 넘기기 위해 enctype="multipart/form-data" 적어줘야함 -->
 		<form action="boardwrite" method="post" enctype="multipart/form-data" name="boardform">
+			<input type="hidden" value="${user }" name="writer">
 			<table>
-				<tr>
-					<td class="td_left"><label for="writer">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="writer" id="writer"/></td>
-				</tr>
 				<tr>
 					<td class="td_left"><label for="subject">제목</label></td>
 					<td class="td_right"><input name="subject" type="text"
