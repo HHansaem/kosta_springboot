@@ -67,18 +67,18 @@
 		<td class="td_left"><label>내용</label></td>
 		<td class="td_right"><div id="content">${board.content }</div></td>
 	</tr>
-	<c:if test="${board.filenum ne null }">
+	<c:if test="${board.fileNum ne null }">
 		<tr>
 			<td class="td_left"><label>이미지</label></td>
 			<td class="td_right">
-				<img src="image?num=${board.filenum }" width="100px"/>
+				<img src="${path }/image/${board.fileNum }" width="100px"/>
 			</td>
 		</tr>
 	</c:if>
 </table>
 <div id="commandCell">
 	<a href="boardmodify?num=${board.num }">수정</a>&nbsp;&nbsp;&nbsp;
-	<a href="boardlist">목록</a>&nbsp;&nbsp;&nbsp;
+	<a href="${path }/boardlist">목록</a>&nbsp;&nbsp;&nbsp;
 	<c:if test="${user ne Empty }"> <!-- 로그인했을 때만 하트 누를 수 있게 -->
 		<c:choose>
 			<c:when test="${like eq 'true' }">

@@ -11,5 +11,5 @@ import com.kosta.board.util.PageInfo;
 public interface BoardService {
 	void boardWrite(BoardDto boardDto, MultipartFile file) throws Exception;
 	List<BoardDto> boardListByPage(PageInfo pageInfo, String type, String word) throws Exception;
-	
+	BoardDto boardDetail(Integer num) throws Exception;
 }

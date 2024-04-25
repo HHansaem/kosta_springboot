@@ -3,6 +3,7 @@ package com.kosta.board.service;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
@@ -40,7 +41,7 @@ public class BoardServiceImpl implements BoardService {
 								.contenttype(file.getContentType())
 								.build();
 			fileRepository.save(bFile);
-			File upFile = new File(uploadPath, bFile.getName());
+			File upFile = new File(uploadPath, bFile.getNum()+"");
 			file.transferTo(upFile);
 			boardDto.setFileNum(bFile.getNum());
 		}
@@ -79,6 +80,13 @@ public class BoardServiceImpl implements BoardService {
 		}
 		
 		return boardDtoList;
+	}
+
+	@Override
+	public BoardDto boardDetail(Integer num) throws Exception {
+		Optional<Board> oboard = boardRepository.findById(num);
+		if(oboard.isEmpty()) throw new Exception("글번호 오류");
+		return oboard.get().toBoardDto();
 	}
 
 }

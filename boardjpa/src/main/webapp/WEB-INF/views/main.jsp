@@ -34,8 +34,8 @@
 		<a href="login" class="a">로그인</a>
 	</c:otherwise>
 </c:choose>&nbsp;&nbsp;&nbsp;
-<a href="join" class="a">회원가입</a>&nbsp;&nbsp;&nbsp;
-<a href="boardlist" class="a">게시판목록</a><br><br>
+<a href="${path }/join" class="a">회원가입</a>&nbsp;&nbsp;&nbsp;
+<a href="${path }/boardlist" class="a">게시판목록</a><br><br>
 </div>
 </body>
 </html>

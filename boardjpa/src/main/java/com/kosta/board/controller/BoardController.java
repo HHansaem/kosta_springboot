@@ -1,11 +1,18 @@
 package com.kosta.board.controller;
 
+import java.io.FileInputStream;
+import java.io.OutputStream;
 import java.util.List;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -20,6 +27,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Value("${upload.path}") 
+	private String uploadPath;
 	
 	@GetMapping("/boardwrite")
 	public String boardWrite() {
@@ -59,7 +69,30 @@ public class BoardController {
 		return mav;
 	}
 	
+	// jsp에서 링크 "boarddetail/${board.num}" 이렇게 줌
+	@GetMapping("/boarddetail/{num}")
+	public ModelAndView boardDetail(@PathVariable Integer num) {  //위에 적힌 path의 {num}을 가져오겠다 (num 이름 똑같아야 함)
+		ModelAndView mav = new ModelAndView();
+		try {
+			mav.addObject("board", boardService.boardDetail(num));
+			mav.setViewName("boarddetail");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "글 상세조회 오류");
+			mav.setViewName("error");
+		}
+		return mav;
+	}
 	
-	
+	@GetMapping("/image/{num}")
+	public void imageView(@PathVariable Integer num, HttpServletResponse response) {
+		try {
+			FileInputStream fis = new FileInputStream(uploadPath+num);
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(fis, out);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	
 }

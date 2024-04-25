@@ -74,7 +74,7 @@ function submit(page) {
 		<c:forEach items="${boardList }" var="board">
 			<tr>
 				<td>${board.num }</td>
-				<td><a href="boarddetail?num=${board.num}">${board.subject }</a></td>
+				<td><a href="boarddetail/${board.num}">${board.subject }</a></td>
 				<td>${board.writer }</td>
 				<td>${board.writeDate }</td>
 				<td>${board.viewCount }</td>
