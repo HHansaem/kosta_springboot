@@ -25,6 +25,8 @@ public class Member {
 	@Column
 	private String name;
 	@Column
+	private String nickName;
+	@Column
 	private String password;
 	@Column
 	private String email;

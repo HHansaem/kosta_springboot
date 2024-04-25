@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.kosta.board.dto.MemberDto;
+import com.kosta.board.entity.Member;
 import com.kosta.board.service.MemberService;
 
 @Controller
@@ -31,11 +32,23 @@ public class MemberController {
 	@PostMapping("/memberDoubleId")
 	public String accountDoubleId(String id) {
 		try {
-			Boolean check = memberService.checkMemberDoubleId(id);
-			return String.valueOf(check);
+			Boolean isId = memberService.checkDoubleId(id);
+			return String.valueOf(isId);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "false";
+			return "none";
+		}
+	}
+	
+	@ResponseBody
+	@PostMapping("/memberDoubleNickName")
+	public String memberdoubleNickName(@RequestParam("nickName") String nickName) {
+		try {
+			Boolean isNickName = memberService.checkDoubleNickName(nickName);
+			return String.valueOf(isNickName);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "none";
 		}
 	}
 	
@@ -59,9 +72,10 @@ public class MemberController {
 	@PostMapping("/login")
 	public String login(@RequestParam("id") String id, @RequestParam("password") String password, Model model) {
 		try {
-			memberService.login(id, password);
+			MemberDto memberDto = memberService.login(id, password);
 			session.setAttribute("user", id);
-			return "makeAccount";
+			session.setAttribute("nickname", memberDto.getNickName());
+			return "writeform";
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());

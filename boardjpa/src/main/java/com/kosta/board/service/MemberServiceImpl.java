@@ -25,16 +25,25 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public Boolean checkMemberDoubleId(String id) throws Exception {
+	public Boolean checkDoubleId(String id) throws Exception {
 		Optional<Member> omem = memberRepository.findById(id);
-		return omem.get() != null;
+		if(omem.isPresent()) return true;
+		return false;
 	}
 
 	@Override
-	public void login(String id, String password) throws Exception {
+	public Boolean checkDoubleNickName(String nickName) throws Exception {
+		Optional<Member> omem = memberRepository.findByNickName(nickName);  //key값이 아닌 걸로 select 할 때는 따로 선언해줘야 함
+		if(omem.isPresent()) return true;
+		return false;
+	}
+
+	@Override
+	public MemberDto login(String id, String password) throws Exception {
 		Optional<Member> omember = memberRepository.findById(id);
 		if(omember.isEmpty()) throw new Exception("아이디 오류");
 		Member member = omember.get();
 		if(!member.getPassword().equals(password.trim())) throw new Exception("비밀번호 오류");
+		return modelMapper.map(member, MemberDto.class);
 	}
 }

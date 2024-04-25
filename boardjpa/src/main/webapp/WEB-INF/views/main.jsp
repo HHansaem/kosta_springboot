@@ -21,10 +21,10 @@
 <body>
 <form action="main"></form>
 <div id="header">
-<img src="${path }/resources/image/catLogo.png" width="100px" height="100px">&nbsp;
+<img src="${path }/resources/image/cuteLogo.png" width="100px" height="100px">&nbsp;
 <c:choose>
 	<c:when test="${nickname ne Empty}">
-		<b>${nickname }&nbsp;&nbsp;<img src="${thumbnail }" width="40px" height="40px" style="border-radius: 50%"/></b>&nbsp;&nbsp;
+		<b>${nickname }&nbsp;&nbsp;</b>&nbsp;&nbsp;
 		<a href="logout" class="a">로그아웃</a>
 	</c:when>
 	<c:when test="${user ne Empty}">
