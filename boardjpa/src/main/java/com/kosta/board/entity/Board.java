@@ -16,6 +16,8 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 import org.springframework.data.annotation.LastModifiedDate;
 
+import com.kosta.board.dto.BoardDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -63,6 +65,19 @@ public class Board {
 	@JoinColumn(name = "writer")  //Member의 기본키를 writer라는 이름으로 join하겠다 (실제 객체는 Member 정보 다 가지고 있음)
 	private Member member;
 	
-	
+	public BoardDto toBoardDto() {  //DB에서 가져옴
+		return BoardDto.builder()
+						.num(num)
+						.subject(subject)
+						.content(content)
+						.fileNum(fileNum)
+						.viewCount(viewCount)
+						.likeCount(likeCount)
+						.writeDate(writeDate)
+						.modifyDate(modifyDate)
+						.writer(member.getId())
+						.nickName(member.getNickName())
+						.build();
+	}
 	
 }
