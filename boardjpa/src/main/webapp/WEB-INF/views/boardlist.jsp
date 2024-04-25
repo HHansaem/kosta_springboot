@@ -76,8 +76,8 @@ function submit(page) {
 				<td>${board.num }</td>
 				<td><a href="boarddetail?num=${board.num}">${board.subject }</a></td>
 				<td>${board.writer }</td>
-				<td>${board.writedate }</td>
-				<td>${board.viewcount }</td>
+				<td>${board.writeDate }</td>
+				<td>${board.viewCount }</td>
 			</tr>
 		</c:forEach>
 	</tr>

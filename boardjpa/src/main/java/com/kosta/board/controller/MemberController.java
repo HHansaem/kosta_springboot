@@ -75,7 +75,7 @@ public class MemberController {
 			MemberDto memberDto = memberService.login(id, password);
 			session.setAttribute("user", id);
 			session.setAttribute("nickname", memberDto.getNickName());
-			return "writeform";
+			return "redirect:/boardlist";
 		} catch (Exception e) {
 			e.printStackTrace();
 			model.addAttribute("err", e.getMessage());
@@ -86,6 +86,7 @@ public class MemberController {
 	@GetMapping("/logout")
 	public String logout() {
 		session.removeAttribute("user");
+		session.removeAttribute("nickname");
 		return "login";
 	}
 }

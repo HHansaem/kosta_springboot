@@ -45,13 +45,9 @@ table {
 		<h2>게시판글수정</h2>
 <!-- 		file 업로드시 파일 정보를 넘기기 위해 enctype="multipart/form-data" 적어줘야함 -->
 		<form action="boardmodify" method="post" enctype="multipart/form-data">
+			<input type="hidden" value="${user }" name="writer">
 			<input type="hidden" name="num" value="${board.num }"/>
 			<table>
-				<tr>
-					<td class="td_left"><label for="writer">글쓴이</label></td>
-					<td class="td_right"><input type="text" name="writer" 
-						id="writer" readonly="readonly" value="${board.writer }"/></td>
-				</tr>
 				<tr>
 					<td class="td_left"><label for="subject">제목</label></td>
 					<td class="td_right"><input name="subject" type="text"
