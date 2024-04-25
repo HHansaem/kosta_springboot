@@ -77,7 +77,7 @@
 	</c:if>
 </table>
 <div id="commandCell">
-	<a href="boardmodify?num=${board.num }">수정</a>&nbsp;&nbsp;&nbsp;
+	<a href="${path }/boardmodify/${board.num }">수정</a>&nbsp;&nbsp;&nbsp;
 	<a href="${path }/boardlist">목록</a>&nbsp;&nbsp;&nbsp;
 	<c:if test="${user ne Empty }"> <!-- 로그인했을 때만 하트 누를 수 있게 -->
 		<c:choose>

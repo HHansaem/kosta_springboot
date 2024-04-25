@@ -44,7 +44,7 @@ table {
 	<section id="./writeForm">
 		<h2>게시판글수정</h2>
 <!-- 		file 업로드시 파일 정보를 넘기기 위해 enctype="multipart/form-data" 적어줘야함 -->
-		<form action="boardmodify" method="post" enctype="multipart/form-data">
+		<form action="${path }/boardmodify" method="post" enctype="multipart/form-data">
 			<input type="hidden" value="${user }" name="writer">
 			<input type="hidden" name="num" value="${board.num }"/>
 			<table>
@@ -58,11 +58,11 @@ table {
 					<td><textarea id="content" name="content"
 							cols="40" rows="15" required="required">${board.content }</textarea></td>
 				</tr>
-				<c:if test="${board.filenum ne null }">
+				<c:if test="${board.fileNum ne null }">
 					<tr>
 						<td class="td_left"><label>이미지</label></td>
 						<td class="td_right">
-							<img src="image?num=${board.filenum }" width="100px" id="image-box"/>
+							<img src="${path }/image/${board.fileNum }" width="100px" id="image-box"/>
 						</td>
 					</tr>
 				</c:if>
@@ -73,7 +73,7 @@ table {
 			</table>
 			<section id="commandCell">
 				<input type="submit" value="수정">&nbsp;&nbsp; 
-				<a href="boardlist">목록</a>&nbsp;&nbsp;&nbsp;
+				<a href="${path }/boardlist">목록</a>&nbsp;&nbsp;&nbsp;
 			</section>
 		</form>
 	</section>

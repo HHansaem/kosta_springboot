@@ -89,4 +89,35 @@ public class BoardServiceImpl implements BoardService {
 		return oboard.get().toBoardDto();
 	}
 
+	@Override
+	public void boardModify(BoardDto boardDto, MultipartFile file) throws Exception {
+		BoardDto beforeBoard = boardDetail(boardDto.getNum());
+		
+		if(file != null && !file.isEmpty()) {
+			//새 파일 업로드 & 새 파일정보 삽입
+			BFile bFile = BFile.builder()
+								.name(file.getOriginalFilename())
+								.directory(uploadPath)
+								.size(file.getSize())
+								.contenttype(file.getContentType())
+								.build();
+			fileRepository.save(bFile);
+			File upFile = new File(uploadPath, bFile.getNum()+"");
+			file.transferTo(upFile);
+			boardDto.setFileNum(bFile.getNum());
+		} else {
+			boardDto.setFileNum(beforeBoard.getFileNum());
+		}
+		
+		Board board = boardDto.toBoard();
+		board.setNum(boardDto.getNum());
+		boardRepository.save(board);
+		
+		if(beforeBoard != null) {
+			fileRepository.deleteById(beforeBoard.getFileNum());
+			File beforeFile = new File(uploadPath, beforeBoard.getFileNum()+"");
+			beforeFile.delete();
+		}
+	}
+
 }

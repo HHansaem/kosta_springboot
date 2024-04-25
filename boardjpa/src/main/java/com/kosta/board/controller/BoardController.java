@@ -12,9 +12,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -93,6 +95,35 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	@GetMapping("/boardmodify/{num}")
+	public ModelAndView boardModify(@PathVariable Integer num) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			mav.addObject("board", boardService.boardDetail(num));
+			mav.setViewName("modifyform");
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "게시글 수정 폼 오류");
+			mav.setViewName("error");
+		}
+		return mav;
+	}
+	
+	@PostMapping("/boardmodify")
+	public ModelAndView boardModify(@ModelAttribute BoardDto boardDto, 
+								@RequestPart(value = "file", required = false) MultipartFile file) {
+		ModelAndView mav = new ModelAndView();
+		try {
+			boardService.boardModify(boardDto, file);
+			mav.setViewName("redirect:/boarddetail/" + boardDto.getNum());
+		} catch (Exception e) {
+			e.printStackTrace();
+			mav.addObject("err", "게시글 수정 오류");
+			mav.setViewName("error");
+		}
+		return mav;
 	}
 	
 }

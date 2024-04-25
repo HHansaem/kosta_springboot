@@ -25,13 +25,13 @@
 <c:choose>
 	<c:when test="${nickname ne Empty}">
 		<b>${nickname }&nbsp;&nbsp;</b>&nbsp;&nbsp;
-		<a href="logout" class="a">로그아웃</a>
+		<a href="${path }/logout" class="a">로그아웃</a>
 	</c:when>
 	<c:when test="${user ne Empty}">
-		<b>${user }</b>&nbsp;&nbsp;<a href="logout" class="a">로그아웃</a>
+		<b>${user }</b>&nbsp;&nbsp;<a href="${path }/logout" class="a">로그아웃</a>
 	</c:when>
 	<c:otherwise>
-		<a href="login" class="a">로그인</a>
+		<a href="${path }/login" class="a">로그인</a>
 	</c:otherwise>
 </c:choose>&nbsp;&nbsp;&nbsp;
 <a href="${path }/join" class="a">회원가입</a>&nbsp;&nbsp;&nbsp;

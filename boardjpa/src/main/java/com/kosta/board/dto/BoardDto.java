@@ -28,11 +28,17 @@ public class BoardDto {
 	private String writer;
 	private String nickName;
 	
+	//BoardDto의 변수들을 Board로 변환해주는 함수
 	public Board toBoard() {  //원하는 파라미터만 넣어서 생성 가능 (프론트에서 가져옴)
 		return Board.builder()
+					.num(num)
 					.subject(subject)
 					.content(content)
 					.fileNum(fileNum)
+					.viewCount(viewCount)
+					.likeCount(likeCount)
+					.writeDate(writeDate)
+					.modifyDate(modifyDate)
 					.member(Member.builder().id(writer).build())  //Member.builder 사용하려면 Member에서 @Builder 필요
 					.build();
 	}
