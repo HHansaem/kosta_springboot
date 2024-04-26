@@ -28,7 +28,7 @@ import lombok.Setter;
 @Builder
 public class Professor {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Integer profno;
 	
 	@Column
@@ -41,7 +41,7 @@ public class Professor {
 	private String position;
 	
 	@Column
-	private Integer pqy;
+	private Integer pay;
 	
 	@Column
 //	@CreationTimestamp
@@ -60,7 +60,7 @@ public class Professor {
 	@JoinColumn(name = "deptno")
 	private Department department;
 	
-	@OneToMany(mappedBy = "profno", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "professor", fetch = FetchType.LAZY)
 	private List<Student> studList = new ArrayList<>();
 	
 }

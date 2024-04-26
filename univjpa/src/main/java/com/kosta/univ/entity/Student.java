@@ -25,7 +25,7 @@ import lombok.Setter;
 @Builder
 public class Student {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Integer studno;
 	
 	@Column
@@ -58,7 +58,7 @@ public class Student {
 	private Department department1;
 
 	@ManyToOne(fetch = FetchType.EAGER)
-	@JoinColumn(name = "deptno1")
+	@JoinColumn(name = "deptno2")
 	private Department department2;
 	
 }

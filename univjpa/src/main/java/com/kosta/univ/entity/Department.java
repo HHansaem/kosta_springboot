@@ -25,22 +25,25 @@ import lombok.Setter;
 @Builder
 public class Department {
 	
-	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Id
 	private Integer deptno;
 	
 	@Column
 	private String dname;
 	
 	@Column
-	private Integer part;
+	private String part;
 	
 	@Column
 	private String build;
 	
-	@OneToMany(mappedBy = "deptno1", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "department1", fetch = FetchType.LAZY)
 	private List<Student> studList1 = new ArrayList<>();
 
-	@OneToMany(mappedBy = "deptno2", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "department2", fetch = FetchType.LAZY)
 	private List<Student> studList2 = new ArrayList<>();
+
+	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
+	private List<Professor> profList = new ArrayList<>();
 	
 }
