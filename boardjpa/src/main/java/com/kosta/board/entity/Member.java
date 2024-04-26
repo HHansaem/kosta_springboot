@@ -40,4 +40,9 @@ public class Member {
 	//LAZY: boardList를 요청할 떄만 쿼리에서 가져오겠다
 	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)  //일대다관계
 	private List<Board> boardList = new ArrayList<>();
+	
+	//자신(Member)이 One이니까 Many인 BoardLike를 List형식으로 갖고 있어야 함
+	@OneToMany(mappedBy = "member", fetch = FetchType.LAZY)
+	private List<BoardLike> boardLikeList = new ArrayList<>();
+	
 }

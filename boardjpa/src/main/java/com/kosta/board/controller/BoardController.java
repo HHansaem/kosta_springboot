@@ -3,8 +3,10 @@ package com.kosta.board.controller;
 import java.io.FileInputStream;
 import java.io.OutputStream;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosta.board.dto.BoardDto;
 import com.kosta.board.service.BoardService;
 import com.kosta.board.util.PageInfo;
@@ -30,6 +33,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Autowired
+	private HttpSession session;
 	
 	@Value("${upload.path}") 
 	private String uploadPath;
@@ -78,6 +84,8 @@ public class BoardController {
 		ModelAndView mav = new ModelAndView();
 		try {
 			mav.addObject("board", boardService.boardDetail(num));
+			String user = (String)session.getAttribute("user");
+			mav.addObject("like", String.valueOf(boardService.isSelectBoardLike(user, num)));
 			mav.setViewName("boarddetail");
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -126,15 +134,23 @@ public class BoardController {
 		}
 		return mav;
 	}
-//	
-//	@ResponseBody
-//	@PostMapping("/boardlike")
-//	public String boardLike(@RequestParam("like") String like) {
-//		try {
-//			
-//		} catch (Exception e) {
-//			// TODO: handle exception
-//		}
-//	}
+	
+	@ResponseBody
+	@PostMapping("/boardlike")
+	public String boardLike(@RequestParam("like") String like) {
+		try {
+			ObjectMapper mapper = new ObjectMapper();
+			//json 형태로 문자열을 파싱하여 map에 넣어준다
+			Map<String, String> param = mapper.readValue(like, Map.class);
+			//map에 있는 데이터를 json형태의 문자열로 변환해준다
+			//String json = mapper.writeValueAsString(map)
+			Boolean checkLike = boardService.checkBoardLike((String)param.get("memberId"), 
+										Integer.parseInt(param.get("boardNum")));
+			return String.valueOf(checkLike);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "none";
+		}
+	}
 	
 }

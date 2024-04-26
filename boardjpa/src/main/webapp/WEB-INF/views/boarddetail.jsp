@@ -35,7 +35,7 @@
 	$(function() {
 		$('#like').click(function() {
 			$.ajax({
-				url:'boardlike',
+				url:'/boardlike',
 				type:'post',
 				async:true,
 				data:{like:JSON.stringify({memberId:"${user}", boardNum:"${board.num}"})},
