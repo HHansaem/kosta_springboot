@@ -15,6 +15,9 @@ import org.springframework.web.multipart.MultipartFile;
 import com.kosta.board.dto.BoardDto;
 import com.kosta.board.entity.BFile;
 import com.kosta.board.entity.Board;
+import com.kosta.board.entity.BoardLike;
+import com.kosta.board.entity.Member;
+import com.kosta.board.repository.BoardLikeRepository;
 import com.kosta.board.repository.BoardRepository;
 import com.kosta.board.repository.FileRepository;
 import com.kosta.board.util.PageInfo;
@@ -30,6 +33,7 @@ public class BoardServiceImpl implements BoardService {
 	
 	private final FileRepository fileRepository;
 	private final BoardRepository boardRepository;
+	private final BoardLikeRepository boardLikeRepository;
 	
 	@Override
 	public void boardWrite(BoardDto boardDto, MultipartFile file) throws Exception {
@@ -129,10 +133,27 @@ public class BoardServiceImpl implements BoardService {
 		}
 	}
 
-//	@Override
-//	public Boolean isSelectBoardLike(String memberId, Integer boardNum) throws Exception {
-//		Integer num = 
-//		return null;
-//	}
+	@Override
+	public Boolean checkBoardLike(String memberId, Integer boardNum) throws Exception {
+		Optional<BoardLike> oboardLike = boardLikeRepository.findByMember_IdAndBoard_Num(memberId, boardNum);
+		if(oboardLike.isPresent()) {  //기존에 좋아요를 선택했을 경우, 좋아요 제거
+			boardLikeRepository.deleteById(oboardLike.get().getNum());
+			return false;
+		} else {  //기존에 좋아요를 선택하지 않았을 경우, 좋아요 삽입
+			boardLikeRepository.save(
+									BoardLike.builder()
+											 .member(Member.builder().id(memberId).build())
+											 .board(Board.builder().num(boardNum).build())
+											 .build()
+									);
+			return true;
+		}
+	}
+
+	@Override
+	public Boolean isSelectBoardLike(String memberId, Integer boardNum) throws Exception {
+		Optional<BoardLike> oboardLike = boardLikeRepository.findByMember_IdAndBoard_Num(memberId, boardNum);
+		return oboardLike.isPresent();
+	}
 
 }
