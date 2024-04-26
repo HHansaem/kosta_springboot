@@ -1,6 +1,8 @@
 package com.kosta.univ;
 
 import java.sql.Date;
+import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,6 +74,26 @@ class UnivjpaApplicationTests {
 							.build();
 				
 		studentRepository.save(student);
+	}
+	
+	//제1전공이 '컴퓨터공학부'인 학생을 조회하시오
+	@Test
+	void selectStudentListByDname1() {
+		Optional<Department> odept = departmentRepository.findByDname("컴퓨터공학부");
+		if(odept.isPresent()) {
+			System.out.println(odept.get());
+			System.out.println(odept.get().getStudList1());
+		}
+	}
+	
+	//제2전공이 '전자공학과'인 학생을 조회하시오
+	@Test
+	void selectStudentListByDname2() {
+		Optional<Department> odept = departmentRepository.findByDname("전자공학과");
+		if(odept.isPresent()) {
+			System.out.println(odept.get());
+			System.out.println(odept.get().getStudList2());
+		}
 	}
 
 }

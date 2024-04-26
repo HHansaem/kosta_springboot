@@ -11,6 +11,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 
+import com.kosta.univ.dto.DepartmentDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -40,10 +42,24 @@ public class Department {
 	@OneToMany(mappedBy = "department1", fetch = FetchType.LAZY)
 	private List<Student> studList1 = new ArrayList<>();
 
-	@OneToMany(mappedBy = "department2", fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "department2", fetch = FetchType.EAGER)
 	private List<Student> studList2 = new ArrayList<>();
 
 	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
 	private List<Professor> profList = new ArrayList<>();
+	
+	@Override
+	public String toString() {
+		return String.format("[%d, %s, %s, %s]", deptno, dname, part, build);
+	}
+	
+	public DepartmentDto toDto() {
+		return DepartmentDto.builder()
+							.deptno(deptno)
+							.dname(dname)
+							.part(part)
+							.build(build)
+							.build();
+	}
 	
 }

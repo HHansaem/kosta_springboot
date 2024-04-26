@@ -61,4 +61,10 @@ public class Student {
 	@JoinColumn(name = "deptno2")
 	private Department department2;
 	
+	@Override
+	public String toString() {
+		return "Student [studno=" + studno + ", name=" + name + ", grade=" + grade + ", jumin=" + jumin + ", birthday="
+				+ birthday + ", tel=" + tel + ", height=" + height + ", weight=" + weight + "]";
+	}
+	
 }
