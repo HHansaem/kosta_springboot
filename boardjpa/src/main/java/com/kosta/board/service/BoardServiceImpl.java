@@ -86,14 +86,22 @@ public class BoardServiceImpl implements BoardService {
 	public BoardDto boardDetail(Integer num) throws Exception {
 		Optional<Board> oboard = boardRepository.findById(num);
 		if(oboard.isEmpty()) throw new Exception("글번호 오류");
-		return oboard.get().toBoardDto();
+		Board board = oboard.get();
+		board.setViewCount(board.getViewCount());
+		boardRepository.save(board);
+		return board.toBoardDto();
 	}
 
 	@Override
 	public void boardModify(BoardDto boardDto, MultipartFile file) throws Exception {
-		BoardDto beforeBoard = boardDetail(boardDto.getNum());
+		//파일 수정의 경우
+		//1. 기존파일이 있으면서 파일을 변경할 경우
+		//2. 기존파일이 없으면서 파일을 추가하는 경우
+		//3. 기존파일이 있는데 변경하지 않는 경우
 		
-		if(file != null && !file.isEmpty()) {
+		BoardDto beforeBoardDto = boardDetail(boardDto.getNum());
+		
+		if(file != null && !file.isEmpty()) {  //변경할 파일이 있는 경우
 			//새 파일 업로드 & 새 파일정보 삽입
 			BFile bFile = BFile.builder()
 								.name(file.getOriginalFilename())
@@ -105,19 +113,26 @@ public class BoardServiceImpl implements BoardService {
 			File upFile = new File(uploadPath, bFile.getNum()+"");
 			file.transferTo(upFile);
 			boardDto.setFileNum(bFile.getNum());
-		} else {
-			boardDto.setFileNum(beforeBoard.getFileNum());
+		} else {  //파일을 변경하지 않는 경우 (기존 file정보)
+			boardDto.setFileNum(beforeBoardDto.getFileNum());
 		}
 		
-		Board board = boardDto.toBoard();
-		board.setNum(boardDto.getNum());
-		boardRepository.save(board);
+		boardRepository.save(boardDto.toBoard());
 		
-		if(beforeBoard != null) {
-			fileRepository.deleteById(beforeBoard.getFileNum());
-			File beforeFile = new File(uploadPath, beforeBoard.getFileNum()+"");
+		//1의 경우에만 삭제
+		//파일을 수정하고 && 기존 업로드된 파일이 있을 경우 기존 업로드한 파일을 테이블에서 데이터 삭제하고 파일 삭제
+		if(file != null && !file.isEmpty() &&  //새로운 파일로 변경하는 조건 
+					beforeBoardDto.getFileNum() != null) {  //기존에 파일이 있는 조건
+			fileRepository.deleteById(beforeBoardDto.getFileNum());
+			File beforeFile = new File(uploadPath, beforeBoardDto.getFileNum()+"");
 			beforeFile.delete();
 		}
 	}
+
+//	@Override
+//	public Boolean isSelectBoardLike(String memberId, Integer boardNum) throws Exception {
+//		Integer num = 
+//		return null;
+//	}
 
 }

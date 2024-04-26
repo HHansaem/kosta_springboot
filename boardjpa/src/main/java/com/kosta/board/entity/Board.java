@@ -14,6 +14,7 @@ import javax.persistence.ManyToOne;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.annotation.LastModifiedDate;
 
 import com.kosta.board.dto.BoardDto;
@@ -57,7 +58,7 @@ public class Board {
 	private Date writeDate;
 	
 	@Column
-	@LastModifiedDate
+	@UpdateTimestamp
 	private Date modifyDate;
 	
 	//EAGER: member를 항상 같이 가져오겠다

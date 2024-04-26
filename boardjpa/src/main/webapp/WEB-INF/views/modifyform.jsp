@@ -44,9 +44,12 @@ table {
 	<section id="./writeForm">
 		<h2>게시판글수정</h2>
 <!-- 		file 업로드시 파일 정보를 넘기기 위해 enctype="multipart/form-data" 적어줘야함 -->
-		<form action="${path }/boardmodify" method="post" enctype="multipart/form-data">
+		<form action="/boardmodify" method="post" enctype="multipart/form-data">
 			<input type="hidden" value="${user }" name="writer">
 			<input type="hidden" name="num" value="${board.num }"/>
+			<input type="hidden" name="viewCount" value="${board.viewCount }"/>
+			<input type="hidden" name="likeCount" value="${board.likeCount }"/>
+			<input type="hidden" name="writeDate" value="${board.writeDate }"/>
 			<table>
 				<tr>
 					<td class="td_left"><label for="subject">제목</label></td>
@@ -73,7 +76,7 @@ table {
 			</table>
 			<section id="commandCell">
 				<input type="submit" value="수정">&nbsp;&nbsp; 
-				<a href="${path }/boardlist">목록</a>&nbsp;&nbsp;&nbsp;
+				<a href="/boardlist">목록</a>&nbsp;&nbsp;&nbsp;
 			</section>
 		</form>
 	</section>
