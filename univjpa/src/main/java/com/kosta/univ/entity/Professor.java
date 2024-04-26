@@ -1,13 +1,18 @@
 package com.kosta.univ.entity;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +28,7 @@ import lombok.Setter;
 @Builder
 public class Professor {
 	
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer profno;
 	
 	@Column
@@ -51,8 +56,11 @@ public class Professor {
 	@Column
 	private String hpage;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "deptno")
 	private Department department;
+	
+	@OneToMany(mappedBy = "profno", fetch = FetchType.LAZY)
+	private List<Student> studList = new ArrayList<>();
 	
 }

@@ -5,9 +5,11 @@ import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -23,7 +25,7 @@ import lombok.Setter;
 @Builder
 public class Student {
 	
-	@Id
+	@Id @GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer studno;
 	
 	@Column
@@ -47,12 +49,16 @@ public class Student {
 	@Column
 	private Integer weight;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "profno")
 	private Professor professor;
 	
-	@OneToOne(fetch = FetchType.EAGER)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "deptno1")
-	private Department department;
+	private Department department1;
+
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "deptno1")
+	private Department department2;
 	
 }
