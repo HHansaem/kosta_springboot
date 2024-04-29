@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.stereotype.Service;
 
 import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
@@ -168,6 +169,13 @@ public class UnivServiceImpl implements UnivService {
 		Department dept = departmentByDeptNo(deptDto.getDeptno());
 		if(dept != null) throw new Exception("등록된 학과번호입니다");
 		departmentRepository.save(deptDto.toEntity());
+	}
+
+	@Override
+	public void saveStudent(StudentDto studDto) throws Exception {
+		Student stud = studentByStudentno(studDto.getStudno());
+		if(stud != null) throw new Exception("등록된 학생번호입니다");
+		studentRepository.save(studDto.toEntity());
 	}
 
 }

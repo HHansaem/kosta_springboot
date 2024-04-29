@@ -3,13 +3,16 @@ package com.kosta.univ.service;
 import java.util.List;
 
 import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
 
 public interface UnivService {
-	//부서 등록
+	//학과 등록
 	void saveDepartment(DepartmentDto deptDto) throws Exception;
+	//학생 등록
+	void saveStudent(StudentDto studDto) throws Exception;
 	
 	////// 조회
 	//학생

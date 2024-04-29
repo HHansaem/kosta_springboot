@@ -11,6 +11,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import com.kosta.univ.dto.StudentDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -30,6 +32,9 @@ public class Student {
 	
 	@Column
 	private String name;
+
+	@Column
+	private String id;
 	
 	@Column
 	private Integer grade;
@@ -63,8 +68,29 @@ public class Student {
 	
 	@Override
 	public String toString() {
-		return "Student [studno=" + studno + ", name=" + name + ", grade=" + grade + ", jumin=" + jumin + ", birthday="
-				+ birthday + ", tel=" + tel + ", height=" + height + ", weight=" + weight + "]";
+		return "Student [studno=" + studno + ", name=" + name + ", id=" + id + ", grade=" + grade + ", jumin=" + jumin
+				+ ", birthday=" + birthday + ", tel=" + tel + ", height=" + height + ", weight=" + weight + "]";
 	}
+	
+	public StudentDto toEntity() {
+		return StudentDto.builder()
+					.studno(studno)
+					.name(name)
+					.id(id)
+					.grade(grade)
+					.jumin(jumin)
+					.birthday(birthday)
+					.jumin(jumin)
+					.tel(tel)
+					.height(height)
+					.weight(weight)
+					.profno(professor.getProfno())
+					.deptno1(department1.getDeptno())
+					.dept1Name(department1.getDname())
+					.deptno2(department2.getDeptno())
+					.dept2Name(department2.getDname())
+					.build();
+	}
+
 	
 }

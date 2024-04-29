@@ -67,6 +67,7 @@ class UnivjpaApplicationTests {
 							.studno(9714)
 							.name("서재수")
 							.grade(4)
+							.id("jaesu")
 							.jumin("9502241128467")
 							.birthday(Date.valueOf("1995-02-24"))
 							.tel("051)426-1700")
