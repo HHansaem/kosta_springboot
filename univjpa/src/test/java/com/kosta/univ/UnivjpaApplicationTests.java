@@ -143,6 +143,36 @@ class UnivjpaApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	void studentListByNoProfessor() {
+		try {
+			List<Student> studList = univService.studentListByNoProfessor();
+			System.out.println(studList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void studentByStudentno() {
+		try {
+			Student stud = univService.studentByStudentno(9413);
+			System.out.println(stud);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void studentByJumin() {
+		try {
+			Student stud = univService.studentByJumin("7808091786954");
+			System.out.println(stud);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
 
