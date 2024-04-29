@@ -4,6 +4,8 @@ import java.sql.Date;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -14,6 +16,7 @@ import com.kosta.univ.entity.Student;
 import com.kosta.univ.repository.DepartmentRepository;
 import com.kosta.univ.repository.ProfessorRepository;
 import com.kosta.univ.repository.StudentRepository;
+import com.kosta.univ.service.UnivService;
 
 @SpringBootTest
 class UnivjpaApplicationTests {
@@ -95,5 +98,53 @@ class UnivjpaApplicationTests {
 			System.out.println(odept.get().getStudList2());
 		}
 	}
+	
+	//조인형 교수 정보 & 이 교수를 담당교수로 하는 학생 목록 조회
+	@Test
+	void selectStudentListByProfName() {
+		Optional<Professor> oprof = professorRepository.findByName("조인형");
+		if(oprof.isPresent()) {
+			Professor professor = oprof.get();
+			System.out.println(professor.toString());
+			System.out.println(professor.getStudList());
+		}
+	}
+	
+	@Autowired
+	private UnivService univService;
+	
+	@Test
+	void studentListByName() {
+		try {
+			List<Student> studList = univService.studentListByName("서재수");
+			System.out.println(studList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	@Transactional
+	void studentListInDept1ByDeptName() {
+		try {
+			List<Student> studList = univService.studentListInDept1ByDeptName("컴퓨터공학부");
+			System.out.println(studList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void studentListInDept2ByDeptNo() {
+		try {
+			List<Student> studList = univService.studentListInDept2ByDeptNo(201);
+			System.out.println(studList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 
 }
+
+
+

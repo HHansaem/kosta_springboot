@@ -42,7 +42,7 @@ public class Department {
 	@OneToMany(mappedBy = "department1", fetch = FetchType.LAZY)
 	private List<Student> studList1 = new ArrayList<>();
 
-	@OneToMany(mappedBy = "department2", fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "department2", fetch = FetchType.LAZY)
 	private List<Student> studList2 = new ArrayList<>();
 
 	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
