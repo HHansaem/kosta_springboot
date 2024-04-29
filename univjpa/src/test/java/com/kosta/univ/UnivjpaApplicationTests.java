@@ -101,11 +101,11 @@ class UnivjpaApplicationTests {
 	
 	//조인형 교수 정보 & 이 교수를 담당교수로 하는 학생 목록 조회
 	@Test
+	@Transactional
 	void selectStudentListByProfName() {
-		Optional<Professor> oprof = professorRepository.findByName("조인형");
-		if(oprof.isPresent()) {
-			Professor professor = oprof.get();
-			System.out.println(professor.toString());
+		List<Professor> profList = professorRepository.findByName("조인형");
+		for(Professor professor : profList) {
+			System.out.println(professor);
 			System.out.println(professor.getStudList());
 		}
 	}
@@ -113,6 +113,7 @@ class UnivjpaApplicationTests {
 	@Autowired
 	private UnivService univService;
 	
+	//학생
 	@Test
 	void studentListByName() {
 		try {
@@ -169,6 +170,70 @@ class UnivjpaApplicationTests {
 		try {
 			Student stud = univService.studentByJumin("7808091786954");
 			System.out.println(stud);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	//교수
+	@Test
+	@Transactional
+	void studentListByProfNo() {
+		try {
+			List<Student> studList = univService.studentListByProfNo(1001);
+			System.out.println(studList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	@Test
+	void professorByProfNo() {
+		try {
+			System.out.println(univService.professorByProfNo(1001));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void professorListByProfName() {
+		try {
+			System.out.println(univService.professorListByProfName("조인형"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@Transactional
+	void professorListByDeptNo() {
+		try {
+			List<Professor> profList = univService.professorListByDeptNo(100);
+			System.out.println(profList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@Transactional
+	void professorListByDeptName() {
+		try {
+			List<Professor> profList = univService.professorListByDeptName("컴퓨터공학부");
+			System.out.println(profList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	@Transactional
+	void professorListByPosition() {
+		try {
+			List<Professor> profList = univService.professorListByPosition("정교수");
+			System.out.println(profList);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
