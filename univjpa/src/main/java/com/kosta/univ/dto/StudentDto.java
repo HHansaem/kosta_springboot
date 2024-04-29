@@ -26,7 +26,7 @@ public class StudentDto {  //사용자에게 보여줄 화면
 	private Integer height;
 	private Integer weight;
 	private Integer profno;
-	private Integer profName;
+	private String profName;
 	private Integer deptno1;
 	private Integer deptno2;
 	private String dept1Name;

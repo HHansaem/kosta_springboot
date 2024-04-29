@@ -3,6 +3,7 @@ package com.kosta.univ.service;
 import java.util.List;
 
 import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
@@ -13,11 +14,13 @@ public interface UnivService {
 	void saveDepartment(DepartmentDto deptDto) throws Exception;
 	//학생 등록
 	void saveStudent(StudentDto studDto) throws Exception;
+	//교수 등록
+	void saveProfessor(ProfessorDto profDto) throws Exception;
 	
 	////// 조회
 	//학생
 	//학생 이름으로 학생목록 조회
-	List<Student> studentListByName(String studName) throws Exception;
+	List<StudentDto> studentListByName(String studName) throws Exception;
 	
 	//제1전공으로 학생목록 조회
 	List<Student> studentListInDept1ByDeptName(String deptName) throws Exception;
@@ -34,7 +37,7 @@ public interface UnivService {
 	List<Student> studentListByNoProfessor() throws Exception;
 	
 	//학번으로 학생 조회
-	Student studentByStudentno(Integer studno) throws Exception;
+	StudentDto studentByStudentno(Integer studno) throws Exception;
 	
 	//주민번호로 학생 조회
 	Student studentByJumin(String jumin) throws Exception;

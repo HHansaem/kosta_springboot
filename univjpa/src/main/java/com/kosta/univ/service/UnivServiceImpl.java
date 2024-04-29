@@ -1,11 +1,13 @@
 package com.kosta.univ.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
 import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
@@ -28,8 +30,13 @@ public class UnivServiceImpl implements UnivService {
 
 	//학생
 	@Override  //학생 이름으로 학생목록 조회
-	public List<Student> studentListByName(String studName) throws Exception {
-		return studentRepository.findByName(studName);
+	public List<StudentDto> studentListByName(String studName) throws Exception {
+		List<StudentDto> studDtoList = new ArrayList<>();
+		List<Student> studList = studentRepository.findByName(studName);
+		for(Student stud : studList) {
+			studDtoList.add(stud.toDto());
+		}
+		return studDtoList;
 	}
 
 	@Override  //제1전공으로 학생목록 조회
@@ -71,9 +78,11 @@ public class UnivServiceImpl implements UnivService {
 	}
 
 	@Override  //학번으로 학생 조회
-	public Student studentByStudentno(Integer studno) throws Exception {
+	public StudentDto studentByStudentno(Integer studno) throws Exception {
 		Optional<Student> ostud = studentRepository.findById(studno);
-		if(ostud.isPresent()) return ostud.get();
+		if(ostud.isPresent()) {
+			return ostud.get().toDto();
+		}
 		return null;
 	}
 
@@ -173,9 +182,16 @@ public class UnivServiceImpl implements UnivService {
 
 	@Override
 	public void saveStudent(StudentDto studDto) throws Exception {
-		Student stud = studentByStudentno(studDto.getStudno());
-		if(stud != null) throw new Exception("등록된 학생번호입니다");
+		Optional<Student> ostud = studentRepository.findById(studDto.getStudno());
+		if(ostud != null) throw new Exception("등록된 학생번호입니다");
 		studentRepository.save(studDto.toEntity());
+	}
+
+	@Override
+	public void saveProfessor(ProfessorDto profDto) throws Exception {
+		Professor prof = professorByProfNo(profDto.getProfno());
+		if(prof != null) throw new Exception("등록된 교수번호입니다");
+		professorRepository.save(profDto.toEntity());
 	}
 
 }

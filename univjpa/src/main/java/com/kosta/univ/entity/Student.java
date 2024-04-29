@@ -72,8 +72,8 @@ public class Student {
 				+ ", birthday=" + birthday + ", tel=" + tel + ", height=" + height + ", weight=" + weight + "]";
 	}
 	
-	public StudentDto toEntity() {
-		return StudentDto.builder()
+	public StudentDto toDto() {
+		StudentDto studDto = StudentDto.builder()
 					.studno(studno)
 					.name(name)
 					.id(id)
@@ -84,12 +84,21 @@ public class Student {
 					.tel(tel)
 					.height(height)
 					.weight(weight)
-					.profno(professor.getProfno())
-					.deptno1(department1.getDeptno())
-					.dept1Name(department1.getDname())
-					.deptno2(department2.getDeptno())
-					.dept2Name(department2.getDname())
 					.build();
+		
+		if(professor != null) {
+			studDto.setProfno(professor.getProfno());
+			studDto.setProfName(professor.getName());
+		}
+		if(department1 != null) {
+			studDto.setDeptno1(department1.getDeptno());
+			studDto.setDept1Name(department1.getDname());
+		}
+		if(department2 != null) {
+			studDto.setDeptno2(department2.getDeptno());
+			studDto.setDept2Name(department2.getDname());
+		}
+		return studDto;
 	}
 
 	

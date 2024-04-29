@@ -12,6 +12,10 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.modelmapper.ModelMapper;
+
+import com.kosta.univ.dto.ProfessorDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -42,7 +46,6 @@ public class Professor {
 	private Integer pay;
 	
 	@Column
-//	@CreationTimestamp
 	private Date hiredate;
 	
 	@Column
@@ -66,6 +69,15 @@ public class Professor {
 		return "Professor [profno=" + profno + ", name=" + name + ", id=" + id + ", position=" + position + ", pay="
 				+ pay + ", hiredate=" + hiredate + ", bonus=" + bonus + ", email=" + email + ", hpage=" + hpage
 				+ ", department=" + department + "]";
+	}
+	
+	public ProfessorDto toDto() {
+		//ModelMapper는 map(this, Professor.class)에서 this(Professor의 변수)를 ProfessorDto.class의 변수로 알아서 매핑
+		ModelMapper modelMapper = new ModelMapper();
+		ProfessorDto professorDto = modelMapper.map(this, ProfessorDto.class);
+		professorDto.setDeptno(department.getDeptno());
+		professorDto.setDeptName(department.getDname());
+		return professorDto;
 	}
 	
 }

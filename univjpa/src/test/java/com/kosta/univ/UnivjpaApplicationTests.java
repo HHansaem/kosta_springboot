@@ -10,6 +10,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
@@ -118,7 +119,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void studentListByName() {
 		try {
-			List<Student> studList = univService.studentListByName("서재수");
+			List<StudentDto> studList = univService.studentListByName("서재수");
 			System.out.println(studList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -159,7 +160,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void studentByStudentno() {
 		try {
-			Student stud = univService.studentByStudentno(9413);
+			StudentDto stud = univService.studentByStudentno(9413);
 			System.out.println(stud);
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -1,13 +1,18 @@
 package com.kosta.univ.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.service.UnivService;
 
@@ -29,7 +34,7 @@ public class UnivController {
 	}
 	
 	@PostMapping("/regStud")  //파라미터가 객체 : Form Data로 보내야 함
-	public ResponseEntity<String> regStudent(StudentDto studDto) {
+	public ResponseEntity<String> regStud(StudentDto studDto) {
 		try {
 			univService.saveStudent(studDto);
 			return new ResponseEntity<String>("학생 정상 등록", HttpStatus.OK);
@@ -38,5 +43,43 @@ public class UnivController {
 			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
 		}
 	}
+
+	@PostMapping("/regProf")
+	public ResponseEntity<String> regProf(@RequestBody ProfessorDto profDto) {
+		try {
+			univService.saveProfessor(profDto);
+			return new ResponseEntity<String>("교수 정상 등록", HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/studInfo")
+	public ResponseEntity<List<StudentDto>> studentInfo(@RequestParam("name") String name) {
+		try {
+			List<StudentDto> studDtoList = univService.studentListByName(name);
+			return new ResponseEntity<List<StudentDto>>(studDtoList, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<List<StudentDto>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/studInfoByNo")
+	public ResponseEntity<StudentDto> studentInfoByNo(@RequestParam("studno") Integer studno) {
+		try {
+			StudentDto studDto = univService.studentByStudentno(studno);
+			return new ResponseEntity<StudentDto>(studDto, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<StudentDto>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	
+	
+	
+	
 	
 }
