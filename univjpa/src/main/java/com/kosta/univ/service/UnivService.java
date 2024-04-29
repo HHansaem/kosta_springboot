@@ -60,7 +60,7 @@ public interface UnivService {
 	Department departmentByDeptName(String deptName) throws Exception;
 	
 	//학과(part)로 학과 목록 조회
-	List<Department> departmentListByPart(Integer part) throws Exception;
+	List<Department> departmentListByPart(String part) throws Exception;
 	
 	//위치하는 건물로 학과목록 조회
 	List<Department> departmentListByBuild(String build) throws Exception;

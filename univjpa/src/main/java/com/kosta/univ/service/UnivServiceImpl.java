@@ -153,15 +153,13 @@ public class UnivServiceImpl implements UnivService {
 	}
 
 	@Override  //학과(part)로 학과 목록 조회
-	public List<Department> departmentListByPart(Integer part) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Department> departmentListByPart(String part) throws Exception {
+		return departmentRepository.findByPart(part);
 	}
 
 	@Override  //위치하는 건물로 학과목록 조회
 	public List<Department> departmentListByBuild(String build) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		return departmentRepository.findByBuild(build);
 	}
 
 }

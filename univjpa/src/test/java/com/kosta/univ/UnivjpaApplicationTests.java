@@ -238,8 +238,46 @@ class UnivjpaApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
+	
+	//학과
+	@Test
+	void departmentByDeptNo() {
+		try {
+			System.out.println(univService.departmentByDeptNo(301));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void departmentByDeptName() {
+		try {
+			System.out.println(univService.departmentByDeptName("전기전자학과"));
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void departmentListByPart() {
+		try {
+			List<Department> deptList = univService.departmentListByPart("공과대학");
+			System.out.println(deptList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Test
+	void departmentListByBuild() {
+		try {
+			List<Department> deptList = univService.departmentListByBuild("전자제어관");
+			System.out.println(deptList);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
 
 }
-
-
-

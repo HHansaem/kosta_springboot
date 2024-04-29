@@ -48,11 +48,6 @@ public class Department {
 	@OneToMany(mappedBy = "department", fetch = FetchType.LAZY)
 	private List<Professor> profList = new ArrayList<>();
 	
-	@Override
-	public String toString() {
-		return String.format("[%d, %s, %s, %s]", deptno, dname, part, build);
-	}
-	
 	public DepartmentDto toDto() {
 		return DepartmentDto.builder()
 							.deptno(deptno)
@@ -60,6 +55,11 @@ public class Department {
 							.part(part)
 							.build(build)
 							.build();
+	}
+
+	@Override
+	public String toString() {
+		return "Department [deptno=" + deptno + ", dname=" + dname + ", part=" + part + ", build=" + build + "]";
 	}
 	
 }
