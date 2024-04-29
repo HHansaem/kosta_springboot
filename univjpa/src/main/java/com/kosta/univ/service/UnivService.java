@@ -2,11 +2,16 @@ package com.kosta.univ.service;
 
 import java.util.List;
 
+import com.kosta.univ.dto.DepartmentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
 
 public interface UnivService {
+	//부서 등록
+	void saveDepartment(DepartmentDto deptDto) throws Exception;
+	
+	////// 조회
 	//학생
 	//학생 이름으로 학생목록 조회
 	List<Student> studentListByName(String studName) throws Exception;

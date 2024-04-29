@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import com.kosta.univ.dto.DepartmentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
@@ -160,6 +161,13 @@ public class UnivServiceImpl implements UnivService {
 	@Override  //위치하는 건물로 학과목록 조회
 	public List<Department> departmentListByBuild(String build) throws Exception {
 		return departmentRepository.findByBuild(build);
+	}
+
+	@Override
+	public void saveDepartment(DepartmentDto deptDto) throws Exception {
+		Department dept = departmentByDeptNo(deptDto.getDeptno());
+		if(dept != null) throw new Exception("등록된 학과번호입니다");
+		departmentRepository.save(deptDto.toEntity());
 	}
 
 }

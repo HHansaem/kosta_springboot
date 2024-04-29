@@ -21,7 +21,7 @@ public class DepartmentDto {
 	private String part;
 	private String build;
 	
-	public Department odEntity() {
+	public Department toEntity() {
 		return Department.builder()
 						.deptno(deptno)
 						.dname(dname)
