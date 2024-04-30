@@ -28,13 +28,13 @@ public class AccountController {
 	
 	@ResponseBody
 	@PostMapping("/accountDoubleId")
-	public String accountDoubleId(String id) {
+	public String accountDoubleId(@RequestParam("id") String id) {
 		try {
 			Boolean check = accountService.checkAccountDoubleId(id);
 			return String.valueOf(check);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return "false";
+			return "none";
 		}
 	}
 	
