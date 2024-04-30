@@ -27,6 +27,9 @@ public class BankRepository {
 	@Autowired
 	private AccountRepository accountRepository;
 	
+	@Autowired
+	private MemberRepository memberRepository;
+	
 	//계좌개설
 	public void insertAccount(Account acc) {
 		accountRepository.save(acc);
@@ -41,7 +44,6 @@ public class BankRepository {
 							.fetchOne();
 	}
 	
-	//입금
 	@Transactional
 	public void updateBalance(String id, Integer balance) {
 		QAccount account = QAccount.account;
@@ -53,8 +55,6 @@ public class BankRepository {
 		entityManager.clear();
 	}
 	
-	//출금
-	
 	//전체계좌조회
 	public List<Account> findAllAccount(){
 		QAccount account = QAccount.account;
@@ -62,8 +62,23 @@ public class BankRepository {
 		return jpaQueryFactory.selectFrom(account).fetch();
 	}
 	
+	//계좌이체
+	@Transactional
+	public void transfer(String sid, String rid, Integer sbalance, Integer rbalance) {
+		QAccount sacc = new QAccount("account1");
+		QAccount racc = new QAccount("account2");
+		
+		jpaQueryFactory.update(sacc)
+					.set(sacc.balance, sbalance).where(sacc.id.eq(sid));
+		jpaQueryFactory.update(racc)
+					.set(racc.balance, rbalance).where(sacc.id.eq(rid));
+	}
+	
 	
 	//회원가입
+	public void insertMember(Member member) {
+		memberRepository.save(member);
+	}
 	
 	//회원조회(로그인)
 	public Member findMemberById(String id) {
@@ -73,6 +88,5 @@ public class BankRepository {
 							.where(member.id.eq(id))
 							.fetchOne();
 	}
-	
 	
 }

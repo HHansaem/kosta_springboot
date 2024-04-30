@@ -1,6 +1,5 @@
 package com.kosta.bank.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -50,21 +49,28 @@ public class AccountServiceImpl implements AccountService {
 	@Override
 	public List<AccountDto> allAccountInfo() throws Exception {
 		List<Account> accList = bankRepository.findAllAccount(); 
-		return accList.stream()
-					.map(Account::toAccountDto)
-					.collect(Collectors.toList());
-		//이걸 대신해서 위의 코드처럼 적어줌
 //		List<AccountDto> accList = new ArrayList<>();
 //		for(Account acc : accountRepository.findAll()) {
 //			accList.add(acc.toAccountDto());
 //		}
 //		return accList;
+		//위 코드를 대신해서 아래의 코드처럼 적어줌
+		if(accList == null) return null;
+		return accList.stream()
+					.map(Account::toAccountDto)
+					.collect(Collectors.toList());
 	}
 
 	@Override
 	public void transfer(String sid, String rid, Integer money) throws Exception {
-		// TODO Auto-generated method stub
-
+		Account sacc = bankRepository.findAccountById(sid);
+		if(sacc == null) throw new Exception("보내는 계좌 오류");
+		Account racc = bankRepository.findAccountById(rid);
+		if(racc == null) throw new Exception("받는 계좌 오류");
+		
+		sacc.withdraw(money);
+		racc.deposit(money);
+		bankRepository.transfer(sid, rid, sacc.getBalance(), racc.getBalance());
 	}
 
 	@Override
