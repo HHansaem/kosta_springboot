@@ -13,7 +13,7 @@ public class QuerydslConfig {
 	@Autowired
 	EntityManager entityManager;
 	
-	@Bean
+	@Bean  //자동 생성되는 (자주 쓰는 것들은 이렇게 Bean으로 생성해줌,, 객체 생성 후 리턴)
 	public JPAQueryFactory jpaQueryFactory() {
 		return new JPAQueryFactory(entityManager);
 	}
