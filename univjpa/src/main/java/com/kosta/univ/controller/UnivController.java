@@ -77,9 +77,150 @@ public class UnivController {
 		}
 	}
 	
+	@GetMapping("/deptInfoByName")  //학과명으로 학과조회
+	public ResponseEntity<DepartmentDto> deptInfoByName(@RequestParam("dname") String dname) {
+		try {
+			DepartmentDto deptDto = univService.departmentByDeptName(dname);
+			return new ResponseEntity<DepartmentDto>(deptDto, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<DepartmentDto>(HttpStatus.BAD_REQUEST);
+		}
+	}
 	
+	@GetMapping("/deptInfoByNo")  //학과번호로 학과조회
+	public ResponseEntity<DepartmentDto> deptInfoByNo(@RequestParam("deptno") Integer deptno) {
+      try {
+         DepartmentDto deptDto = univService.departmentByDeptNo(deptno);
+         return new ResponseEntity<DepartmentDto>(deptDto, HttpStatus.OK);
+      } catch(Exception e) {
+         e.printStackTrace();
+         return new ResponseEntity<DepartmentDto> (HttpStatus.BAD_REQUEST);
+      }
+   }
 	
+	@GetMapping("/deptInfoByPart")  //학부로 학과조회
+	public ResponseEntity<List<DepartmentDto>> deptInfoByPart(@RequestParam("part") String part) {
+      try {
+         List<DepartmentDto> deptDtoList = univService.departmentListByPart(part);
+         return new ResponseEntity<List<DepartmentDto>>(deptDtoList,HttpStatus.OK);
+      } catch(Exception e) {
+         e.printStackTrace();
+         return new ResponseEntity<List<DepartmentDto>> (HttpStatus.BAD_REQUEST);
+      }
+   }
+
 	
+	@GetMapping("/deptInfoByBuild")  //건물로 학과조회
+	public ResponseEntity<List<DepartmentDto>> deptInfoByBuild(@RequestParam("build") String build){
+	      try {
+	         List<DepartmentDto> deptDtoList = univService.departmentListByBuild(build);
+	         return new ResponseEntity<List<DepartmentDto>>(deptDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<DepartmentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/studIndeptNo")  //학과번호에 소속된 학생 조회 (주전공)
+	public ResponseEntity<List<StudentDto>> studInDeptNo(@RequestParam("deptno1") Integer deptno1){
+	      try {
+	         List<StudentDto> stdDtoList = univService.studentListInDept1ByDeptNo(deptno1);
+	         return new ResponseEntity<List<StudentDto>>(stdDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<StudentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/studIndeptName")  //학과명에 소속된 학생 조회 (주전공)
+	public ResponseEntity<List<StudentDto>> studInDeptName(@RequestParam("dname") String dname){
+	      try {
+	         List<StudentDto> stdDtoList = univService.studentListInDept1ByDeptName(dname);
+	         return new ResponseEntity<List<StudentDto>>(stdDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<StudentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/studIndeptNo2")  //학과번호에 소속된 학생 조회 (부전공)
+	public ResponseEntity<List<StudentDto>> studInDeptNo2(@RequestParam("deptno2") Integer deptno2){
+	      try {
+	         List<StudentDto> stdDtoList = univService.studentListInDept2ByDeptNo(deptno2);
+	         return new ResponseEntity<List<StudentDto>>(stdDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<StudentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/studIndeptName2")  //학과명에 소속된 학생 조회 (부전공)
+	public ResponseEntity<List<StudentDto>> studInDeptName2(@RequestParam("dname") String dname){
+	      try {
+	         List<StudentDto> stdDtoList = univService.studentListInDept2ByDeptName(dname);
+	         return new ResponseEntity<List<StudentDto>>(stdDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<StudentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
 	
+	@GetMapping("/studInProfNo")  //교수번호에 소속된 학생 조회
+	public ResponseEntity<List<StudentDto>> studInProfNo(@RequestParam("profno") Integer profno){
+	      try {
+	         List<StudentDto> stdDtoList = univService.studentListByProfNo(profno);
+	         System.out.println(stdDtoList);
+	         return new ResponseEntity<List<StudentDto>> (stdDtoList,HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<StudentDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+	
+	@GetMapping("/profInfoByNo")  //교수번호로 교수 조회
+	public ResponseEntity<ProfessorDto> profInfoByNo(@RequestParam("profno") Integer profno){
+	      try {
+	         ProfessorDto profDto = univService.professorByProfNo(profno);
+	         return new ResponseEntity<ProfessorDto>(profDto, HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<ProfessorDto> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/profInfoByName")  //교수명으로 교수 조회
+	public ResponseEntity<List<ProfessorDto>> profInfoByName(@RequestParam("name") String name){
+	      try {
+	         List<ProfessorDto> profDto = univService.professorListByProfName(name);
+	         return new ResponseEntity<List<ProfessorDto>>(profDto, HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<ProfessorDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/profInDeptNo")  //학과번호에 소속된 교수 조회
+	public ResponseEntity<List<ProfessorDto>> profInDeptno(@RequestParam("deptno") Integer deptno){
+	      try {
+	         List<ProfessorDto> profDto = univService.professorListByDeptNo(deptno);
+	         return new ResponseEntity<List<ProfessorDto>>(profDto, HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<ProfessorDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
+
+	@GetMapping("/profInDeptName")  //학과명에 소속된 교수 조회
+	public ResponseEntity<List<ProfessorDto>> profInDeptName(@RequestParam("dname") String dname){
+	      try {
+	         List<ProfessorDto> profDto = univService.professorListByDeptName(dname);
+	         return new ResponseEntity<List<ProfessorDto>>(profDto, HttpStatus.OK);
+	      } catch(Exception e) {
+	         e.printStackTrace();
+	         return new ResponseEntity<List<ProfessorDto>> (HttpStatus.BAD_REQUEST);
+	      }
+	   }
 	
 }
