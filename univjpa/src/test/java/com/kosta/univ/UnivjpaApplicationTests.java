@@ -10,6 +10,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
 import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
@@ -130,7 +132,7 @@ class UnivjpaApplicationTests {
 	@Transactional
 	void studentListInDept1ByDeptName() {
 		try {
-			List<Student> studList = univService.studentListInDept1ByDeptName("컴퓨터공학부");
+			List<StudentDto> studList = univService.studentListInDept1ByDeptName("컴퓨터공학부");
 			System.out.println(studList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -140,7 +142,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void studentListInDept2ByDeptNo() {
 		try {
-			List<Student> studList = univService.studentListInDept2ByDeptNo(201);
+			List<StudentDto> studList = univService.studentListInDept2ByDeptNo(201);
 			System.out.println(studList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -150,7 +152,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void studentListByNoProfessor() {
 		try {
-			List<Student> studList = univService.studentListByNoProfessor();
+			List<StudentDto> studList = univService.studentListByNoProfessor();
 			System.out.println(studList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -170,7 +172,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void studentByJumin() {
 		try {
-			Student stud = univService.studentByJumin("7808091786954");
+			StudentDto stud = univService.studentByJumin("7808091786954");
 			System.out.println(stud);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -183,7 +185,7 @@ class UnivjpaApplicationTests {
 	@Transactional
 	void studentListByProfNo() {
 		try {
-			List<Student> studList = univService.studentListByProfNo(1001);
+			List<StudentDto> studList = univService.studentListByProfNo(1001);
 			System.out.println(studList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -212,7 +214,7 @@ class UnivjpaApplicationTests {
 	@Transactional
 	void professorListByDeptNo() {
 		try {
-			List<Professor> profList = univService.professorListByDeptNo(100);
+			List<ProfessorDto> profList = univService.professorListByDeptNo(100);
 			System.out.println(profList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -223,7 +225,7 @@ class UnivjpaApplicationTests {
 	@Transactional
 	void professorListByDeptName() {
 		try {
-			List<Professor> profList = univService.professorListByDeptName("컴퓨터공학부");
+			List<ProfessorDto> profList = univService.professorListByDeptName("컴퓨터공학부");
 			System.out.println(profList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -234,7 +236,7 @@ class UnivjpaApplicationTests {
 	@Transactional
 	void professorListByPosition() {
 		try {
-			List<Professor> profList = univService.professorListByPosition("정교수");
+			List<ProfessorDto> profList = univService.professorListByPosition("정교수");
 			System.out.println(profList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -264,7 +266,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void departmentListByPart() {
 		try {
-			List<Department> deptList = univService.departmentListByPart("공과대학");
+			List<DepartmentDto> deptList = univService.departmentListByPart("공과대학");
 			System.out.println(deptList);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -274,7 +276,7 @@ class UnivjpaApplicationTests {
 	@Test
 	void departmentListByBuild() {
 		try {
-			List<Department> deptList = univService.departmentListByBuild("전자제어관");
+			List<DepartmentDto> deptList = univService.departmentListByBuild("전자제어관");
 			System.out.println(deptList);
 		} catch (Exception e) {
 			e.printStackTrace();
