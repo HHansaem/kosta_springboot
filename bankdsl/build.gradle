@@ -42,6 +42,12 @@ dependencies {
 	providedRuntime 'org.springframework.boot:spring-boot-starter-tomcat'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	
+	// https://mvnrepository.com/artifact/org.apache.tomcat.embed/tomcat-embed-jasper
+	implementation 'org.apache.tomcat.embed:tomcat-embed-jasper'
+	
+	// https://mvnrepository.com/artifact/javax.servlet/jstl
+	implementation 'javax.servlet:jstl:1.2'
+	
 	//쿼리DSL 추가
 	implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
 	implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
