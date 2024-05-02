@@ -136,7 +136,7 @@ function daumPostcode() {
 			<div class="input"><input type="password" name="password"/></div>
 		</div>
 		<div class="row">
-			<div class="title">별병</div>
+			<div class="title">별명</div>
 			<div class="input"><input type="text" name="nickName" id="nickName"/></div>&nbsp;
 			<button id="doubleNickName">중복</button>
 		</div>
