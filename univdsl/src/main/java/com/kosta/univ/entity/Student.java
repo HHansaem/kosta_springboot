@@ -32,7 +32,7 @@ public class Student {
 	@Column
 	private Integer grade;
 	@Column
-	private Integer hight;
+	private Integer height;
 	@Column
 	private Integer weight;
 	@Column

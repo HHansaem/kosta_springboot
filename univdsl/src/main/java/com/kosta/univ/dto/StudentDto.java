@@ -19,7 +19,7 @@ public class StudentDto {
 	private Date birthday;
 	private String tel;
 	private Integer grade;
-	private Integer hight;
+	private Integer height;
 	private Integer weight;
 	private Integer deptno1;
 	private Integer deptno2;
