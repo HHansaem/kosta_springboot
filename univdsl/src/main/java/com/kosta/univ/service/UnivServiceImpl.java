@@ -4,7 +4,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -28,16 +28,20 @@ public class UnivServiceImpl implements UnivService {
 	private final UnivRepository univRepository;
 	
 	private final ObjectMapper objectMapper;
+	private final ModelMapper modelMapper;
 
 	@Override
 	public void enterStudent(StudentDto stud) throws Exception {
-//		Optional<Student> ostud = studentRepository.findById(stud.getId());
+		Optional<Student> ostud = studentRepository.findById(stud.getStudno());
+		if(ostud.isPresent()) throw new Exception("학생번호 중복 오류");
+		studentRepository.save(modelMapper.map(stud, Student.class));  //StudentDto => Student
 	}
 
 	@Override
 	public StudentDto getStudentByNo(Integer studno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Student> ostud = studentRepository.findById(studno);
+		if(ostud.isEmpty()) throw new Exception("학생번호 오류");
+		return modelMapper.map(ostud.get(), StudentDto.class);  //Student => StudentDto
 	}
 
 	@Override
