@@ -1,5 +1,7 @@
 package com.kosta.univ.repository;
 
+import java.util.List;
+
 import org.apache.tomcat.jni.OS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import com.kosta.univ.entity.QDepartment;
 import com.kosta.univ.entity.QProfessor;
 import com.kosta.univ.entity.QStudent;
+import com.kosta.univ.entity.Student;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 
@@ -53,6 +56,15 @@ public class UnivRepository {
 							.on(student.profno.eq(professor.profno))
 							.where(student.studno.eq(studno))
 							.fetchOne();
+	}
+	
+	public List<Student> findStudentByName(String name) {
+		QStudent student = QStudent.student;
+		
+		return jpaQueryFactory.select(student)
+							.from(student)
+							.where(student.name.eq(name))
+							.fetch();
 	}
 	
 	

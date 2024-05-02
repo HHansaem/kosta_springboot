@@ -1,5 +1,6 @@
 package com.kosta.univ.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -77,10 +78,14 @@ public class UnivServiceImpl implements UnivService {
 		return map;
 	}
 
-	@Override
+	@Override  //학생이름으로 학생 정보 조회
 	public List<StudentDto> getStudentByName(String name) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentByName(name);
+		List<StudentDto> studDtoList = new ArrayList<>();
+		for(Student stud : studList) {
+			studDtoList.add(modelMapper.map(stud, StudentDto.class));
+		}
+		return studDtoList;
 	}
 
 	@Override
