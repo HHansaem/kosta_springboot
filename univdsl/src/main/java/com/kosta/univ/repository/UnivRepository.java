@@ -1,5 +1,6 @@
 package com.kosta.univ.repository;
 
+import org.apache.tomcat.jni.OS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
@@ -39,6 +40,20 @@ public class UnivRepository {
 							.fetchOne();
 	}
 	
+	public Tuple findStudentWithDnameAndProfNameByStudno(Integer studno) {
+		QStudent student = QStudent.student;
+		QDepartment department = QDepartment.department;
+		QProfessor professor = QProfessor.professor;
+		
+		return jpaQueryFactory.select(student, department.dname, professor.name)
+							.from(student)
+							.join(department)
+							.on(student.deptno1.eq(department.deptno))
+							.join(professor)
+							.on(student.profno.eq(professor.profno))
+							.where(student.studno.eq(studno))
+							.fetchOne();
+	}
 	
 	
 }

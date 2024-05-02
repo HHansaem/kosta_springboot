@@ -65,10 +65,16 @@ public class UnivServiceImpl implements UnivService {
 		return map;
 	}
 
-	@Override  
+	@Override  //학번으로 학생정보 조회(학과명, 담당교수명 포함)
 	public Map<String, Object> getStudentByNoWithDnameAndProfName(Integer studno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Tuple tuple = univRepository.findStudentWithDnameAndProfNameByStudno(studno);
+		Student student = tuple.get(0, Student.class);
+		String dname = tuple.get(0, String.class);
+		String name = tuple.get(0, String.class);
+		Map<String, Object> map = objectMapper.convertValue(student, Map.class);
+		map.put("dname", dname);
+		map.put("name", name);
+		return map;
 	}
 
 	@Override
