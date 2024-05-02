@@ -1,15 +1,18 @@
 package com.kosta.univ.service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.kosta.univ.dto.DepartmentDto;
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
+import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
 import com.kosta.univ.repository.DepartmentRepository;
 import com.kosta.univ.repository.ProfessorRepository;
@@ -79,69 +82,161 @@ public class UnivServiceImpl implements UnivService {
 	}
 
 	@Override  //학생이름으로 학생 정보 조회
-	public List<StudentDto> getStudentByName(String name) throws Exception {
-		List<Student> studList = univRepository.findStudentByName(name);
-		List<StudentDto> studDtoList = new ArrayList<>();
-		for(Student stud : studList) {
-			studDtoList.add(modelMapper.map(stud, StudentDto.class));
-		}
-		return studDtoList;
+	public List<StudentDto> getStudentListByName(String name) throws Exception {
+		List<Student> studList = studentRepository.findByName(name);
+		return studList.stream()
+						.map(stud->modelMapper.map(stud, StudentDto.class))
+						.collect(Collectors.toList());
 	}
 
 	@Override  //특정학과 학생 조회(학과번호로)
-	public List<StudentDto> getStudentByDeptno(Integer deptno) throws Exception {
-		List<Student> studList = univRepository.findStudentByDeptno(deptno);
-		List<StudentDto> studDtoList = new ArrayList<>();
-		for(Student stud : studList) {
-			studDtoList.add(modelMapper.map(stud, StudentDto.class));
-		}
-		return studDtoList;
+	public List<StudentDto> getStudentListByDeptno(Integer deptno) throws Exception {
+		List<Student> studList = studentRepository.findByDeptno1(deptno);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
 	@Override  //특정학과 학생 조회(학과명으로)
 	public List<StudentDto> getStudentListByDname(String dname) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentListByDname(dname);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //특정학년 학생 조회
 	public List<StudentDto> getStudentListByGrade(Integer grade) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = studentRepository.findByGrade(grade);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //특정학과, 특정학년 학생 조회
 	public List<StudentDto> getStudentListByDnameAndGrade(String dname, Integer grade) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentListByDnameAndGrade(dname, grade);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //주전공이 deptno1이거나 부전공이 deptno2인 학생 조회
 	public List<StudentDto> getStudentListByDeptNo1OrDeptNo2(Integer deptno1, Integer deptno2) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = studentRepository.findByDeptno1OrDeptno2(deptno1, deptno2);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //주전공이나 부전공이 특정학과인 학생 조회(학과번호로)
 	public List<StudentDto> getStudentListByDeptNo1OrDeptNo2(Integer deptno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentListByDeptNo1OrDeptNo2(deptno);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //주전공이 dname1이거나 부전공이 dname2인 학생 조회
 	public List<StudentDto> getStudentListByDname1OrDname2(String dname1, String dname2) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentListByDname1OrDname2(dname1, dname2);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //주전공이나 부전공이 특정학과인 학생 조회(학과명으로)
 	public List<StudentDto> getStudentListByDname1OrDname2(String dname) throws Exception {
+		List<Student> studList = univRepository.findStudentListByDname1OrDname2(dname);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override  //특정 교수가 담당하는 학생목록 조회
+	public List<StudentDto> getStudentListByProfNo(Integer profno) throws Exception {
+		List<Student> studList = studentRepository.findByProfno(profno);
+		return studList.stream()
+				.map(stud->modelMapper.map(stud, StudentDto.class))
+				.collect(Collectors.toList());
+	}
+
+	@Override  //교수 입사
+	public void enterProfessor(ProfessorDto prof) throws Exception {
+		Optional<Professor> professor = professorRepository.findById(prof.getDeptno());
+		if(professor.isPresent()) throw new Exception("교수번호 중복 오류");
+		professorRepository.save(modelMapper.map(prof, Professor.class));
+	}
+
+	@Override  //교수번호로 교수정보 조회
+	public ProfessorDto getProfessorByProfno(Integer profno) throws Exception {
+		Optional<Professor> professor = professorRepository.findById(profno);
+		if(professor.isEmpty()) throw new Exception("교수정보 없음");
+		return modelMapper.map(professor.get(), ProfessorDto.class);
+	}
+
+	@Override  //교수명으로 교수정보 조회
+	public List<ProfessorDto> getProfessorByProfName(String profName) throws Exception {
+		List<Professor> profList = professorRepository.findByName(profName);
+		return profList.stream()
+					.map(prof->modelMapper.map(prof, ProfessorDto.class))
+					.collect(Collectors.toList());
+	}
+
+	@Override  //교수번호로 교수정보 조회(학과명 포함)
+	public Map<String, Object> getProfessorByProfnoWithDname(Integer profno) throws Exception {
+		Tuple tuple = univRepository.findProfessorByProfnoWithDname(profno);
+		Professor professor = tuple.get(0, Professor.class);
+		String dname = tuple.get(0, String.class);
+		Map<String, Object> map = objectMapper.convertValue(professor, Map.class);
+		map.put("dname", dname);
+		return map;
+	}
+
+	@Override  //학생의 담당교수 조회
+	public ProfessorDto getProfessorByStudno(Integer studno) throws Exception {
+		Professor professor = univRepository.findProfessorByStudno(studno);
+		return null;
+	}
+
+	@Override  //특정학과 교수 정보조회(학과번호로)
+	public List<ProfessorDto> getProfessorByDeptno(Integer deptno) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override  //특정학과 교수 정보조회(학과명으로)
+	public List<ProfessorDto> getProfessorByDeptName(String dname) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public List<StudentDto> getStudentListByProfNo(Integer profno) throws Exception {
+	public void foundDepartment(DepartmentDto dept) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public DepartmentDto getDepartmentByDeptno(Integer deptno) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DepartmentDto getDepartmentByDname(String dname) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public DepartmentDto getDepartmentByStudNo(Integer studno) throws Exception {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public List<DepartmentDto> getDepartmentByBuild(String build) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
 	}

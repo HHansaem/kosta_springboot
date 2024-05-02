@@ -2,10 +2,11 @@ package com.kosta.univ.repository;
 
 import java.util.List;
 
-import org.apache.tomcat.jni.OS;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.kosta.univ.dto.ProfessorDto;
+import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.QDepartment;
 import com.kosta.univ.entity.QProfessor;
 import com.kosta.univ.entity.QStudent;
@@ -58,23 +59,83 @@ public class UnivRepository {
 							.fetchOne();
 	}
 	
-	public List<Student> findStudentByName(String name) {
+	public List<Student> findStudentListByDname(String dname) {
 		QStudent student = QStudent.student;
+		QDepartment department = QDepartment.department;
 		
 		return jpaQueryFactory.select(student)
 							.from(student)
-							.where(student.name.eq(name))
+							.join(department)
+							.on(student.deptno1.eq(department.deptno))
+							.where(department.dname.eq(dname))
 							.fetch();
 	}
-	
-	public List<Student> findStudentByDeptno(Integer deptno) {
+
+	public List<Student> findStudentListByDnameAndGrade(String dname, Integer grade) {
 		QStudent student = QStudent.student;
+		QDepartment department = QDepartment.department;
 		
 		return jpaQueryFactory.select(student)
-							.from(student)
-							.where(student.deptno1.eq(deptno))
+				.from(student)
+				.join(department)
+				.on(student.deptno1.eq(department.deptno))
+				.where(department.dname.eq(dname).and(student.grade.eq(grade)))
+				.fetch();
+	}
+	
+	public List<Student> findStudentListByDeptNo1OrDeptNo2(Integer deptno) {
+		QStudent student = QStudent.student;
+		
+		return jpaQueryFactory.selectFrom(student)
+							.where(student.deptno1.eq(deptno).or(student.deptno2.eq(deptno)))
 							.fetch();
 	}
 	
+	public List<Student> findStudentListByDname1OrDname2(String dname1, String dname2) {
+		QStudent student = QStudent.student;
+		QDepartment department1 = new QDepartment("department1");
+		QDepartment department2 = new QDepartment("department2");
+		
+		return jpaQueryFactory.selectFrom(student)
+							.leftJoin(department1)
+							.on(student.deptno1.eq(department1.deptno))
+							.leftJoin(department2)
+							.on(student.deptno2.eq(department2.deptno))
+							.where(department1.dname.eq(dname1).or(department2.dname.eq(dname2)))
+							.fetch();
+	}
+
+	public List<Student> findStudentListByDname1OrDname2(String dname) {
+		QStudent student = QStudent.student;
+		QDepartment department1 = new QDepartment("department1");
+		QDepartment department2 = new QDepartment("department2");
+		
+		return jpaQueryFactory.selectFrom(student)
+				.leftJoin(department1)
+				.on(student.deptno1.eq(department1.deptno))
+				.leftJoin(department2)
+				.on(student.deptno2.eq(department2.deptno))
+				.where(department1.dname.eq(dname).or(department2.dname.eq(dname)))
+				.fetch();
+	}
+	
+	public Tuple findProfessorByProfnoWithDname(Integer profno) {
+		QProfessor professor = QProfessor.professor;
+		QDepartment department = QDepartment.department;
+		return jpaQueryFactory.select(professor, department.dname)
+							.from(professor)
+							.join(department)
+							.on(professor.deptno.eq(department.deptno))
+							.where(professor.profno.eq(profno))
+							.fetchOne();
+	}
+	
+	public Professor findProfessorByStudno(Integer studno) {
+		QProfessor professor = QProfessor.professor;
+		return jpaQueryFactory.select(professor)
+							.from(professor)
+							.where(professor.profno.eq(studno))
+							.fetchOne();
+	}
 	
 }
