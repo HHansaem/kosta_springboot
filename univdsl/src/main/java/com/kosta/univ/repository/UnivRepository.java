@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.kosta.univ.entity.QDepartment;
+import com.kosta.univ.entity.QProfessor;
 import com.kosta.univ.entity.QStudent;
 import com.querydsl.core.Tuple;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -25,4 +26,19 @@ public class UnivRepository {
 							.where(student.studno.eq(studno))
 							.fetchOne();
 	}
+	
+	public Tuple findStudentWithProfNameByStudno(Integer studno) {
+		QStudent student = QStudent.student;
+		QProfessor professor = QProfessor.professor;
+		
+		return jpaQueryFactory.select(student, professor.name)
+							.from(student)
+							.join(professor)
+							.on(student.profno.eq(professor.profno))
+							.where(student.studno.eq(studno))
+							.fetchOne();
+	}
+	
+	
+	
 }

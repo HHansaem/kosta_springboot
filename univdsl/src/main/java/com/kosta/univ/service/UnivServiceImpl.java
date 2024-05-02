@@ -30,21 +30,21 @@ public class UnivServiceImpl implements UnivService {
 	private final ObjectMapper objectMapper;
 	private final ModelMapper modelMapper;
 
-	@Override
+	@Override  //학생입학
 	public void enterStudent(StudentDto stud) throws Exception {
 		Optional<Student> ostud = studentRepository.findById(stud.getStudno());
 		if(ostud.isPresent()) throw new Exception("학생번호 중복 오류");
 		studentRepository.save(modelMapper.map(stud, Student.class));  //StudentDto => Student
 	}
 
-	@Override
+	@Override  //학번으로 학생정보 조회
 	public StudentDto getStudentByNo(Integer studno) throws Exception {
 		Optional<Student> ostud = studentRepository.findById(studno);
 		if(ostud.isEmpty()) throw new Exception("학생번호 오류");
 		return modelMapper.map(ostud.get(), StudentDto.class);  //Student => StudentDto
 	}
 
-	@Override
+	@Override  //학번으로 학생정보 조회(학과명 포함)
 	public Map<String, Object> getStudentByNoWithDname(Integer studno) throws Exception {
 		Tuple tuple = univRepository.findStudentWithDeptNameByStudno(studno);
 		Student student = tuple.get(0, Student.class);
@@ -52,16 +52,20 @@ public class UnivServiceImpl implements UnivService {
 		//student의 속성을 key로, value를 값으로 매핑 (student의 속성을 일일이 다 map.put 안해줘도 됨)
 		Map<String, Object> map = objectMapper.convertValue(student, Map.class);
 		map.put("dname", dname);
-		return null;
+		return map;
 	}
 
-	@Override
+	@Override  //학번으로 학생정보 조회(담당교수명 포함)
 	public Map<String, Object> getStudentByNoWithProfName(Integer studno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Tuple tuple = univRepository.findStudentWithProfNameByStudno(studno);
+		Student student = tuple.get(0, Student.class);
+		String name = tuple.get(0, String.class);
+		Map<String, Object> map = objectMapper.convertValue(student, Map.class);
+		map.put("name", name);
+		return map;
 	}
 
-	@Override
+	@Override  
 	public Map<String, Object> getStudentByNoWithDnameAndProfName(Integer studno) throws Exception {
 		// TODO Auto-generated method stub
 		return null;
