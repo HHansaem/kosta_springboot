@@ -45,7 +45,7 @@ table {
 		<h2>게시판글수정</h2>
 <!-- 		file 업로드시 파일 정보를 넘기기 위해 enctype="multipart/form-data" 적어줘야함 -->
 		<form action="/boardmodify" method="post" enctype="multipart/form-data">
-			<input type="hidden" value="${user }" name="writer">
+			<input type="hidden" value="${board.writer }" name="writer">
 			<input type="hidden" name="num" value="${board.num }"/>
 			<input type="hidden" name="viewCount" value="${board.viewCount }"/>
 			<input type="hidden" name="likeCount" value="${board.likeCount }"/>

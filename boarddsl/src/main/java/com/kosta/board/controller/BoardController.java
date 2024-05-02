@@ -48,6 +48,7 @@ public class BoardController {
 	@PostMapping("/boardwrite")
 	public String boardWrite(BoardDto boardDto, MultipartFile file, Model model) {
 		try {
+			System.out.println("boardDto!!!"+boardDto);
 			boardService.boardWrite(boardDto, file);
 			return "redirect:/boardlist";
 		} catch (Exception e) {
