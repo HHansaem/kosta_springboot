@@ -67,5 +67,14 @@ public class UnivRepository {
 							.fetch();
 	}
 	
+	public List<Student> findStudentByDeptno(Integer deptno) {
+		QStudent student = QStudent.student;
+		
+		return jpaQueryFactory.select(student)
+							.from(student)
+							.where(student.deptno1.eq(deptno))
+							.fetch();
+	}
+	
 	
 }

@@ -88,13 +88,17 @@ public class UnivServiceImpl implements UnivService {
 		return studDtoList;
 	}
 
-	@Override
+	@Override  //특정학과 학생 조회(학과번호로)
 	public List<StudentDto> getStudentByDeptno(Integer deptno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Student> studList = univRepository.findStudentByDeptno(deptno);
+		List<StudentDto> studDtoList = new ArrayList<>();
+		for(Student stud : studList) {
+			studDtoList.add(modelMapper.map(stud, StudentDto.class));
+		}
+		return studDtoList;
 	}
 
-	@Override
+	@Override  //특정학과 학생 조회(학과명으로)
 	public List<StudentDto> getStudentListByDname(String dname) throws Exception {
 		// TODO Auto-generated method stub
 		return null;

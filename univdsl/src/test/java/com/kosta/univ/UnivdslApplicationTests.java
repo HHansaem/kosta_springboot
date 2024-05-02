@@ -27,4 +27,16 @@ class UnivdslApplicationTests {
 		}
 	}
 
+	@Test
+	void getStudentByDeptno() {
+		List<StudentDto> student;
+		try {
+			student = univService.getStudentByDeptno(202);
+			System.out.println(student);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+
 }
