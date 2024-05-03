@@ -133,9 +133,12 @@ public class UnivRepository {
 	
 	public Professor findProfessorByStudno(Integer studno) {
 		QProfessor professor = QProfessor.professor;
+		QStudent student = QStudent.student;
 		return jpaQueryFactory.select(professor)
 							.from(professor)
-							.where(professor.profno.eq(studno))
+							.join(student)
+							.on(professor.profno.eq(student.profno))
+							.where(student.studno.eq(studno))
 							.fetchOne();
 	}
 
@@ -144,6 +147,8 @@ public class UnivRepository {
 		QDepartment department = QDepartment.department;
 		return jpaQueryFactory.select(professor)
 				.from(professor)
+				.join(department)
+				.on(professor.deptno.eq(department.deptno))
 				.where(department.dname.eq(dname))
 				.fetch();
 	}
@@ -153,6 +158,8 @@ public class UnivRepository {
 		QStudent student = QStudent.student;
 		return jpaQueryFactory.select(department)
 							.from(department)
+							.join(student)
+							.on(department.deptno.eq(student.deptno1))
 							.where(student.studno.eq(studno))
 							.fetchOne();
 	}

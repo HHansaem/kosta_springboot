@@ -6,7 +6,10 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
+import com.kosta.univ.entity.Professor;
+import com.kosta.univ.entity.Student;
 import com.kosta.univ.service.UnivService;
 
 @SpringBootTest
@@ -90,5 +93,17 @@ class UnivdslApplicationTests {
 			e.printStackTrace();
 		}
 	}
+	
+	@Test
+	void getProfessorByStudno() {
+		try {
+			ProfessorDto professor = univService.getProfessorByStudno(9412);
+			System.out.println(professor);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 
 }
