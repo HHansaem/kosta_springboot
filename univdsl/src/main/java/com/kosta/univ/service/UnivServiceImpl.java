@@ -12,6 +12,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.kosta.univ.dto.DepartmentDto;
 import com.kosta.univ.dto.ProfessorDto;
 import com.kosta.univ.dto.StudentDto;
+import com.kosta.univ.entity.Department;
 import com.kosta.univ.entity.Professor;
 import com.kosta.univ.entity.Student;
 import com.kosta.univ.repository.DepartmentRepository;
@@ -196,49 +197,58 @@ public class UnivServiceImpl implements UnivService {
 	@Override  //학생의 담당교수 조회
 	public ProfessorDto getProfessorByStudno(Integer studno) throws Exception {
 		Professor professor = univRepository.findProfessorByStudno(studno);
-		return null;
+		return modelMapper.map(professor, ProfessorDto.class);
 	}
 
 	@Override  //특정학과 교수 정보조회(학과번호로)
 	public List<ProfessorDto> getProfessorByDeptno(Integer deptno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Professor> profList = professorRepository.findByDeptno(deptno);
+		return profList.stream()
+					.map(prof->modelMapper.map(prof, ProfessorDto.class))
+					.collect(Collectors.toList());
 	}
 
 	@Override  //특정학과 교수 정보조회(학과명으로)
 	public List<ProfessorDto> getProfessorByDeptName(String dname) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Professor> profList = univRepository.findProfessorByDeptName(dname);
+		return profList.stream()
+				.map(prof->modelMapper.map(prof, ProfessorDto.class))
+				.collect(Collectors.toList());
 	}
 
-	@Override
+	@Override  //학과신설
 	public void foundDepartment(DepartmentDto dept) throws Exception {
-		// TODO Auto-generated method stub
-		
+		Optional<Department> odept = departmentRepository.findById(dept.getDeptno());
+		if(odept.isPresent()) throw new Exception("학과번호 중복 오류");
+		departmentRepository.save(modelMapper.map(dept, Department.class));
 	}
 
-	@Override
+	@Override  //학과번호로 학과조회
 	public DepartmentDto getDepartmentByDeptno(Integer deptno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Department> odept = departmentRepository.findById(deptno);
+		if(odept.isPresent()) throw new Exception("학과번호 오류");
+		return modelMapper.map(odept.get(), DepartmentDto.class);
 	}
 
-	@Override
+	@Override  //학과명으로 학과조회
 	public DepartmentDto getDepartmentByDname(String dname) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Optional<Department> odept = departmentRepository.findByDname(dname);
+		if(odept.isEmpty()) throw new Exception("학과명 오류");
+		return modelMapper.map(odept.get(), DepartmentDto.class);
 	}
 
-	@Override
+	@Override  //학번으로 학과조회
 	public DepartmentDto getDepartmentByStudNo(Integer studno) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		Department department = univRepository.findDepartmentByStudNo(studno);
+		return modelMapper.map(department, DepartmentDto.class);
 	}
 
-	@Override
+	@Override  //건물로 학과조회
 	public List<DepartmentDto> getDepartmentByBuild(String build) throws Exception {
-		// TODO Auto-generated method stub
-		return null;
+		List<Department> deptList = departmentRepository.findByBuild(build);
+		return deptList.stream()
+				.map(dept->modelMapper.map(dept, DepartmentDto.class))
+				.collect(Collectors.toList());
 	}
 
 }

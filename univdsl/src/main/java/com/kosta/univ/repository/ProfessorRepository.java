@@ -8,4 +8,5 @@ import com.kosta.univ.entity.Professor;
 
 public interface ProfessorRepository extends JpaRepository<Professor, Integer> {
 	List<Professor> findByName(String name);
+	List<Professor> findByDeptno(Integer deptno);
 }
