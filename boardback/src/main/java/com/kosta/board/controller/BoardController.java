@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.print.attribute.SetOfIntegerSyntax;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -35,6 +37,17 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Map<String,Object>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/deleteBoard")
+	public ResponseEntity<Integer> deleteBoard(@RequestParam("num") Integer num) {
+		try {
+			Integer boardNum = boardService.deleteBoard(num);
+			return new ResponseEntity<Integer>(boardNum, HttpStatus.OK);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return new ResponseEntity<Integer>(HttpStatus.BAD_REQUEST);
 		}
 	}
 	

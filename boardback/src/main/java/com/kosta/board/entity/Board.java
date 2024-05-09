@@ -4,6 +4,7 @@ import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -69,7 +70,7 @@ public class Board {
 	private Member member;
 	
 	//자신(Board)이 One이니까 Many인 BoardLike를 List형식으로 갖고 있어야 함
-	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY)  
+	@OneToMany(mappedBy = "board", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)  
 	private List<BoardLike> boardLikeList = new ArrayList<>();
 	
 	public BoardDto toBoardDto() {  //DB에서 가져옴

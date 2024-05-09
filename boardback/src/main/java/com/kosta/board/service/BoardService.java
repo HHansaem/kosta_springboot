@@ -16,4 +16,5 @@ public interface BoardService {
 	
 	Boolean isSelectBoardLike(String memberId, Integer boardNum) throws Exception;
 	Boolean checkBoardLike(String memberId, Integer boardNum) throws Exception;
+	Integer deleteBoard(Integer num) throws Exception;
 }

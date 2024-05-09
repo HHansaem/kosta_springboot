@@ -156,4 +156,12 @@ public class BoardServiceImpl implements BoardService {
 		return oboardLike.isPresent();
 	}
 
+	@Override
+	public Integer deleteBoard(Integer num) throws Exception {
+		Optional<Board> oboard = boardRepository.findById(num);
+		if(oboard.isEmpty()) throw new Exception("글번호 오류");
+		boardRepository.deleteById(num);
+		return num;
+	}
+
 }
