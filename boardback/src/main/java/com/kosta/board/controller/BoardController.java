@@ -78,15 +78,18 @@ public class BoardController {
 	}
 	
 	//@PathVariable : url의 /{num}를 받아옴 (이름 같아야 함)
-	@GetMapping("/boardDetail/{num}/{id}")
+	@GetMapping({"/boardDetail/{num}/{id}", "/boardDetail/{num}"})
 	public ResponseEntity<Map<String, Object>> boardDetail(@PathVariable Integer num, 
-														@PathVariable String id) {
+											@PathVariable(required = false) String id) {
 		try {
 			Map<String, Object> res = new HashMap<>();
 			BoardDto boardDto = boardService.boardDetail(num);
 			res.put("board", boardDto);
-			Boolean isLike = boardService.isSelectBoardLike(id, num);
-			res.put("like", isLike);
+			if(id == null) {
+				res.put("like", null);
+			} else {
+				res.put("like", boardService.isSelectBoardLike(id, num));
+			}
 			return new ResponseEntity<Map<String, Object>>(res, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
