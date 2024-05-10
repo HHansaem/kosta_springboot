@@ -46,7 +46,7 @@ public class Board {
 	private String content;
 	
 	@Column
-	private Integer fileNum;
+	private String fileNums;
 	
 	@Column
 	@ColumnDefault("0")  //기본값 설정
@@ -78,7 +78,7 @@ public class Board {
 						.num(num)
 						.subject(subject)
 						.content(content)
-						.fileNum(fileNum)
+						.fileNums(fileNums)
 						.viewCount(viewCount)
 						.likeCount(likeCount)
 						.writeDate(writeDate)
