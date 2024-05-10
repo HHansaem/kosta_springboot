@@ -67,7 +67,7 @@ public class BoardController {
 	public ResponseEntity<Integer> boardWrite(@RequestParam("subject") String subject,
 											@RequestParam("content") String content, 
 											@RequestParam("writer") String writer,
-											@RequestParam("file") MultipartFile[] files) {
+											@RequestParam(name="file", required=false) MultipartFile[] files) {
 		try {
 			Integer boardNum = boardService.boardWrite(subject, content, writer, files);
 			return new ResponseEntity<Integer>(boardNum, HttpStatus.OK);

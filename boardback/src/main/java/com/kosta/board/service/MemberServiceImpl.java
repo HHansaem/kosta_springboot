@@ -46,4 +46,11 @@ public class MemberServiceImpl implements MemberService {
 		if(!member.getPassword().equals(password.trim())) throw new Exception("비밀번호 오류");
 		return modelMapper.map(member, MemberDto.class);
 	}
+
+	@Override
+	public MemberDto memberInfo(String id) throws Exception {
+		Optional<Member> omember = memberRepository.findById(id);
+		if(omember.isEmpty()) throw new Exception("아이디 오류");
+		return modelMapper.map(omember.get(), MemberDto.class);
+	}
 }

@@ -38,21 +38,23 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public Integer boardWrite(String subject, String content, String writer, MultipartFile[] files) throws Exception {
 		String fileNums = "";
-		for(MultipartFile file : files) {
-			if(file != null && !file.isEmpty()) {
-				BFile bFile = BFile.builder()
-						.name(file.getOriginalFilename())
-						.directory(uploadPath)
-						.size(file.getSize())
-						.contenttype(file.getContentType())
-						.build();
-				fileRepository.save(bFile);  //file table에 파일 정보 삽입
-				File upFile = new File(uploadPath, bFile.getNum()+"");
-				file.transferTo(upFile);  //file upload
-				if(fileNums.equals("")) {
-					fileNums = bFile.getNum() + "";
-				} else {
-					fileNums += "," + bFile.getNum();
+		if(files != null) {
+			for(MultipartFile file : files) {
+				if(file != null && !file.isEmpty()) {
+					BFile bFile = BFile.builder()
+							.name(file.getOriginalFilename())
+							.directory(uploadPath)
+							.size(file.getSize())
+							.contenttype(file.getContentType())
+							.build();
+					fileRepository.save(bFile);  //file table에 파일 정보 삽입
+					File upFile = new File(uploadPath, bFile.getNum()+"");
+					file.transferTo(upFile);  //file upload
+					if(fileNums.equals("")) {
+						fileNums = bFile.getNum() + "";
+					} else {
+						fileNums += "," + bFile.getNum();
+					}
 				}
 			}
 		}
