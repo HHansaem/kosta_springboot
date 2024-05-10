@@ -1,14 +1,20 @@
 package com.kosta.board.controller;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.print.attribute.SetOfIntegerSyntax;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -25,6 +31,9 @@ public class BoardController {
 	
 	@Autowired
 	private BoardService boardService;
+	
+	@Value("${upload.path}") 
+	private String uploadPath;
 	
 	@GetMapping("/boardList")
 	public ResponseEntity<Map<String, Object>> boardList(@RequestParam(name="page", required = false, defaultValue = "1") Integer page,
@@ -82,6 +91,17 @@ public class BoardController {
 		} catch (Exception e) {
 			e.printStackTrace();
 			return new ResponseEntity<Map<String, Object>>(HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@GetMapping("/image/{num}")
+	public void image(@PathVariable String num, HttpServletResponse response) {
+		try {
+			FileInputStream fis = new FileInputStream(new File(uploadPath, num));
+			OutputStream out = response.getOutputStream();
+			FileCopyUtils.copy(fis, out);
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 	}
 	
