@@ -33,6 +33,7 @@ public class MemberController {
 	public ResponseEntity<MemberDto> login(@RequestBody Map<String, String> param) {
 		try {
 			MemberDto memberDto = memberService.login(param.get("id"), param.get("password"));
+			memberDto.setPassword("");
 			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
