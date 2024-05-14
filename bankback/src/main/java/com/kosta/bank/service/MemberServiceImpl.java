@@ -31,10 +31,11 @@ public class MemberServiceImpl implements MemberService {
 	}
 
 	@Override
-	public void login(String id, String password) throws Exception {
+	public MemberDto login(String id, String password) throws Exception {
 		Optional<Member> omember = memberRepository.findById(id);
 		if(omember.isEmpty()) throw new Exception("아이디 오류");
 		Member member = omember.get();
 		if(!member.getPassword().equals(password.trim())) throw new Exception("비밀번호 오류");
+		return modelMapper.map(member, MemberDto.class);
 	}
 }

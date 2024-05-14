@@ -48,14 +48,13 @@ public class MemberController {
 	}
 	
 	@PostMapping("/login")
-	public ResponseEntity<String> login(@RequestBody Map<String, Object> param) {
+	public ResponseEntity<MemberDto> login(@RequestBody Map<String, String> param) {
 		try {
-			memberService.login((String)param.get("id"), (String)param.get("password"));
-//			session.setAttribute("user", param.get("id"));
-			return new ResponseEntity<String>(HttpStatus.OK);
+			MemberDto memberDto = memberService.login(param.get("id"), param.get("password"));
+			return new ResponseEntity<MemberDto>(memberDto, HttpStatus.OK);
 		} catch (Exception e) {
 			e.printStackTrace();
-			return new ResponseEntity<String>(e.getMessage(), HttpStatus.BAD_REQUEST);
+			return new ResponseEntity<MemberDto>(HttpStatus.BAD_REQUEST);
 		}
 	}
 
