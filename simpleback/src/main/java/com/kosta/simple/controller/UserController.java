@@ -66,7 +66,9 @@ public class UserController {
 		return new ResponseEntity<UserDto>(userDto , HttpStatus.OK);
 	}
 	
-	@GetMapping("/getUser1/{name}")  //@PathVariable: path의 값을 가져오라 {name}의 이름이랑 변수명 같아야 함
+	//@PathVariable: path의 값을 가져오라 {name}의 이름이랑 변수명 같아야 함
+	//한글 깨질 때는 produces 써줌
+	@GetMapping(value="/getUser1/{name}", produces = "application/json;charset=utf-8")  
 	public ResponseEntity<UserDto> getUser1(@PathVariable String name) {
 		System.out.println(name);
 		UserDto userDto = UserDto.builder().name(name).tel("010-3333-5555")
