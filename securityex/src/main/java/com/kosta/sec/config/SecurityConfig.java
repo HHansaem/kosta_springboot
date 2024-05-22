@@ -1,5 +1,6 @@
 package com.kosta.sec.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -7,6 +8,8 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import com.kosta.sec.oauth.PrincipalOauth2UserService;
 
 @Configuration  //IoC 빈(bean) 등록 
 @EnableWebSecurity  //필터 체이니 관리 시작 어노테이션
@@ -18,6 +21,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder encodePassword() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Autowired
+	private PrincipalOauth2UserService principalOauth2UserService;
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
@@ -34,6 +40,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 			//결과적으로 컨트롤러에 따로 "/loginProc" 을 구현하지 않아도 괜찮다
 			//이 로그인 과정에서 필요한 것은 PrincipalDetails를 만들어주는 것이다
 			.loginProcessingUrl("/loginProc")
-			.defaultSuccessUrl("/");  //로그인이 성공적으로 끝나면 리다이렉트할 url
+			.defaultSuccessUrl("/")  //로그인이 성공적으로 끝나면 리다이렉트할 url
+			.and()
+			.oauth2Login()
+			.loginPage("/login")
+			.authorizationEndpoint()
+			.baseUri("/oauth2/authorization")
+			.and()
+			.redirectionEndpoint()
+			.baseUri("/oauth2/callback/*")
+			.and()
+			.userInfoEndpoint()
+			.userService(principalOauth2UserService);
+		
 	}
 }
