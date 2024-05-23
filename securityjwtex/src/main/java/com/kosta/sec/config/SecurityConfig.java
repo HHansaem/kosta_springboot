@@ -8,6 +8,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.web.filter.CorsFilter;
 
 import com.kosta.sec.config.oauth.PrincipalOauth2UserService;
 
@@ -16,6 +17,8 @@ import com.kosta.sec.config.oauth.PrincipalOauth2UserService;
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
+	@Autowired
+	private CorsFilter corsFilter;
 	
 	@Bean
 	public BCryptPasswordEncoder encodePassword() {
@@ -27,31 +30,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 	
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable();  //cross site request forgery attack (크로스사이트 요청 위조 공격)
-		http.authorizeRequests()
+		http
+			.addFilter(corsFilter)  //다른 도메인 접근 허용
+			.csrf().disable();  //csrf 공격 비활성화
+
+		//login
+		http
+			.formLogin().disable()  //로그인 홈 비활성화
+			.httpBasic().disable();  //httpBasic은 header에 username, password를 암호화하지 않은 상태로 주고받는다. 이를 사용하지 않는다.
+			
+		//Oauth2 Login
+		http
+			.oauth2Login()
+			.authorizationEndpoint().baseUri("/oauth2/authorization")
+			.and()
+			.redirectionEndpoint().baseUri("/oauth2/callback/*")
+			.and()
+			.userInfoEndpoint().userService(principalOauth2UserService);
+		
+		http
+			.authorizeRequests()
 			.antMatchers("/user/**").authenticated()  //로그인 필수
 			.antMatchers("/admin/**").access("hasRole('ROLE_ADMIN') or hasRole('ROLE_MANAGER')")  //로그인 & 권한이 ADMIN이나 MANAGER이어야 함
 			.antMatchers("/manager/**").access("hasRole('ROLE_MANAGER')")  //로그인 & 권한이 MENEGER
-			.anyRequest().permitAll()
-			.and()
-			.formLogin()
-			.loginPage("/login")
-			//"/loginProc" 주소가 호출되면 시큐리티가 낚아채서 대신 로그인을 진행
-			//결과적으로 컨트롤러에 따로 "/loginProc" 을 구현하지 않아도 괜찮다
-			//이 로그인 과정에서 필요한 것은 PrincipalDetails를 만들어주는 것이다
-			.loginProcessingUrl("/loginProc")
-			.defaultSuccessUrl("/")  //로그인이 성공적으로 끝나면 리다이렉트할 url
-			.and()
-			.oauth2Login()
-			.loginPage("/login")
-			.authorizationEndpoint()
-			.baseUri("/oauth2/authorization")
-			.and()
-			.redirectionEndpoint()
-			.baseUri("/oauth2/callback/*")
-			.and()
-			.userInfoEndpoint()
-			.userService(principalOauth2UserService);
-		
+			.anyRequest().permitAll();
 	}
 }
