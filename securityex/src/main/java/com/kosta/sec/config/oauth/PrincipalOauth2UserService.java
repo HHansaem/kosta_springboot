@@ -1,4 +1,4 @@
-package com.kosta.sec.oauth;
+package com.kosta.sec.config.oauth;
 
 import java.util.Optional;
 
