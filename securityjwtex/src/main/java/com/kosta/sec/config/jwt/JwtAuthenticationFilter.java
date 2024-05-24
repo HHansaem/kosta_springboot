@@ -25,30 +25,21 @@ public class JwtAuthenticationFilter extends UsernamePasswordAuthenticationFilte
 		super(authenticationManager);
 	}
 	
+	private JwtToken jwtToken = new JwtToken();
+	
 	@Override
 	protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain,
 			Authentication authResult) throws IOException, ServletException {
 		PrincipalDetails principalDetails = (PrincipalDetails)authResult.getPrincipal();
-		String accessToken = JWT.create()
-								.withSubject(principalDetails.getUsername())
-								.withIssuedAt(new Date(System.currentTimeMillis()))
-								.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.ACCESS_EXPIRATION_TIME))
-								.withClaim("id", principalDetails.getUser().getId())
-								.sign(Algorithm.HMAC512(JwtProperties.SECRET));
-		
-		String refreshToken = JWT.create()
-				.withSubject(principalDetails.getUsername())
-				.withIssuedAt(new Date(System.currentTimeMillis()))
-				.withExpiresAt(new Date(System.currentTimeMillis()+JwtProperties.REFRESH_EXPIRATION_TIME))
-				.withClaim("id", principalDetails.getUser().getId())
-				.sign(Algorithm.HMAC512(JwtProperties.SECRET));
+		String accessToken = jwtToken.makeAccessToken(principalDetails.getUsername());
+		String refreshToken = jwtToken.makeRefreshToken(principalDetails.getUsername());
 		
 		ObjectMapper objectMapper = new ObjectMapper();
 		Map<String, String> map = new HashMap<>();
 		map.put("access_token", JwtProperties.TOKEN_PREFIX+accessToken);
 		map.put("refresh_token", JwtProperties.TOKEN_PREFIX+refreshToken);
 		
-		String token = objectMapper.writeValueAsString(map);
+		String token = objectMapper.writeValueAsString(map);  //map -> jsonString
 		System.out.println(token);
 		
 		response.addHeader(JwtProperties.HEADER_STRING, token);
